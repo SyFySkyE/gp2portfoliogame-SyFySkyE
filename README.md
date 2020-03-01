@@ -26,3 +26,10 @@ Folder Sturcture
 \build\0.2VS
 
 \build\0.3Final
+
+Branch Structure
+0 Pre
+1 POC
+2 VS
+3 1B
+4 FB
