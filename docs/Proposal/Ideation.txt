@@ -1,0 +1,42 @@
+Gimmick
+- Anything
+- Doesn't have to use new programming pattern
+- Make it unique
+
+PREVIOUS IDEAS:
+- Tetris Attack (Mean Bean multiplayer, scroing lines pushes garbage to opponent)
+- Space thingy (Clearing lines pushing blocks upward)
+
+What can we put into bejweled to create a new experience?
+- 2 vs. mode. Bigger gems being matched up affects the other player.
+	- IF one player matches more than 3, instead of getting special gem, a positive reward toward one self, the other player receives garbage
+		- How to do that with bejweled? Grabage only works with Tetris/Poyo
+	- In that case, what should happenb when one player clears a significant amount? What would be a fair alternative to garbe falling tetris?
+	- Could be normal bejweled, but under a time limit. Scoring big can affect the other player by stopping their time, or slowing their mouse down?
+		- Good play is rewarded by taking time from the opponent.
+			- That means only one player's session will end before the others. This would need a lot of work in order for that to not be
+				problematic. 
+		- That would also complicate win conditions. Does one player win because they lasted longer, or because of points?
+			- Would have to be because lasted longer. 
+	- We need to figure out what feel the game has. Standard bejweled can feel slow and methodical. You can take your time finding out the moves.
+		- I don't like this. I like having the timebox. Forces action. Especially if we go with 2p, I don't want players to play it like Chess.
+	- Okay, we're probably going to go with the 2p idea. Let's flesh this idea out a bit more and clarify basic features.
+
+	- Two player competitive Bejeweled. 
+	- Optional bots.
+	- Fast-paced, chaotic.
+	- Time-boxed, both players start at a specified time limit.
+	- Matching 3 or more will add time to the player's time left.
+	- Matching more than 3 will create a special gem like normal.
+	- Matching this gem will create negative repercussions for the other player.
+		- This can include repercussions such as adding garbage the player must remove by matching blocks adjacent.
+		- This can include slowing the second player's movement. (Mouse speed moves half its normal speed, matching anims also, etc.)
+		- This can include partially obscurring the other player's screen. (I hate when games do this, we'll see about this.)
+		- This can include inverting the current mouse controls. (Moving the mouse right will go left. Account for players using inverted already.)
+		- Effects can be toggled on or off (competitive mode)
+		- Level of consequence depends on the rarity of the gem used. (Ie, a gem received from a 6 match is more detrimental than one from a 4-match).
+		- This list can go on, easily. There will be many negative consequences, testing will tell which will stay.
+	- Clearing the special gem may or may not produce positive effects for the player that used it. This will be tested.
+	- Time starts out at a normal 1 (may be modified with options ie time starts at 0.5 on easy mode) but speeds up as game goes along.
+		- Ie, at two minutes time starts to decrement faster.
+	- Player's game ends when timer hits 0. Other player wins at this point.
