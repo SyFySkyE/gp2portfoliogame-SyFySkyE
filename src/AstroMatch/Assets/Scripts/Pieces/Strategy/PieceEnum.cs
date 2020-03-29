@@ -4,11 +4,12 @@ using UnityEngine;
 
 public enum PieceType 
 {
-    Frost,
+    Ice,
     Purple,
     Red,
     Sand,
-    Water
+    Water,
+    Sun
 }
 
 public enum PieceState

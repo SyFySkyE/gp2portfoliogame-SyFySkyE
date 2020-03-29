@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8570416255766168790
+--- !u!1 &223359407955865096
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,25 +8,25 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6216377389861103779}
-  - component: {fileID: 1663712639827778644}
-  - component: {fileID: -9219503898530066325}
-  - component: {fileID: 4338328464428851467}
-  - component: {fileID: 1507689182260700387}
+  - component: {fileID: 2570629956768793213}
+  - component: {fileID: 7133426705407768202}
+  - component: {fileID: 8494925872448879285}
+  - component: {fileID: 6991230723114356285}
+  - component: {fileID: 841887028059933244}
   m_Layer: 5
-  m_Name: Ice Planet Piece
+  m_Name: Sun Planet Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &6216377389861103779
+--- !u!224 &2570629956768793213
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8570416255766168790}
+  m_GameObject: {fileID: 223359407955865096}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -39,21 +39,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &1663712639827778644
+--- !u!222 &7133426705407768202
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8570416255766168790}
+  m_GameObject: {fileID: 223359407955865096}
   m_CullTransparentMesh: 0
---- !u!82 &-9219503898530066325
+--- !u!82 &8494925872448879285
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8570416255766168790}
+  m_GameObject: {fileID: 223359407955865096}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -143,30 +143,13 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4338328464428851467
+--- !u!114 &6991230723114356285
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8570416255766168790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35dbee77d0476334992defd1a8556544, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pieceImage: {fileID: 21300000, guid: a11c432b67c633f4dbd20598771446b0, type: 3}
-  switchPlacesSfx: {fileID: 0}
-  switchPlacesVolume: 0.5
-  matchSfx: {fileID: 0}
-  matchVolume: 0.5
---- !u!114 &1507689182260700387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8570416255766168790}
+  m_GameObject: {fileID: 223359407955865096}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -189,3 +172,16 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &841887028059933244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223359407955865096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 676e1f8499c0eaf4491b27576cb0813b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieceImage: {fileID: 21300000, guid: d1633d80f997845418c21db664ba138f, type: 3}

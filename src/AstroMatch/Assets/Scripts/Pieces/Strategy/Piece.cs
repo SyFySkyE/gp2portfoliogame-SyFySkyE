@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(Image))]
 public abstract class Piece : MonoBehaviour, IMatachable
 {
     [Header("Piece Parameters")]
     [SerializeField] private Sprite pieceImage;
     public Sprite PieceImage { get => gamePieceImage.sprite; }
-    private Image gamePieceImage;
+    protected Image gamePieceImage;
 
+    public PieceType PieceCurrentType { get => this.pieceType; }
+    public PieceState PieceCurrentState { get => this.currentState; }
+    protected PieceType pieceType;
+    protected PieceState currentState;
     public RectTransform PieceRectTransform
     {
         get
@@ -20,34 +23,26 @@ public abstract class Piece : MonoBehaviour, IMatachable
             {
                 this.pieceRectTransform = GetComponent<RectTransform>();
             }
+
             return this.pieceRectTransform;
         }
     }
 
     private RectTransform pieceRectTransform;
 
-    private AudioSource pieceAudioSource;
-
-    [SerializeField] private AudioClip switchPlacesSfx;
-    [SerializeField] private float switchPlacesVolume = 0.5f;
-
-    [SerializeField] private AudioClip matchSfx;
-    [SerializeField] private float matchVolume = 0.5f;    
-
     public virtual void Match()
     {
-        pieceAudioSource.PlayOneShot(matchSfx, matchVolume);
+        Debug.Log("Match");
     }
 
     public virtual void SwitchPlace(Vector2 dir)
     {
-        pieceAudioSource.PlayOneShot(switchPlacesSfx, switchPlacesVolume);
+        Debug.Log("Switched places toward " + dir);
     }
 
     // Start is called before the first frame update
-    private void Start()
+    protected virtual void Start() // Needs to be protected so it is called by its derived classes
     {
-        pieceAudioSource = GetComponent<AudioSource>();
         pieceRectTransform = GetComponent<RectTransform>();
         gamePieceImage = GetComponent<Image>();
         gamePieceImage.sprite = pieceImage;
