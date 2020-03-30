@@ -39,11 +39,11 @@ public class Player : MonoBehaviour
 
     private void AttemptToSwap(Cell clickedCell)
     {
-        foreach (Vector2 direction in Directions.directions)
+        foreach (Vector2 direction in Directions.AllDirections)
         {
             if ((this.cellSelected.CellLocation) + direction == clickedCell.CellLocation)
             {                
-                playerGrid.SwapPieces(cellSelected, clickedCell);
+                playerGrid.SwapPieces(cellSelected, clickedCell, false);
                 cellSelected = null;
                 return;
             }
