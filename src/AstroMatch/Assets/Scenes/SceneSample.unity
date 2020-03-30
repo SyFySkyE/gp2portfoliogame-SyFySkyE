@@ -182,7 +182,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &307618510
 RectTransform:
   m_ObjectHideFlags: 0
@@ -217,11 +217,12 @@ MonoBehaviour:
   numberOfColumns: 8
   numberOfRows: 8
   playablePieces:
-  - {fileID: -1669256601243669044, guid: e2478ca6a3b34d74caa441ed5a829a84, type: 3}
-  - {fileID: 4505287879361389198, guid: 05c3f226cb51fad46af13b8fab8562bb, type: 3}
-  - {fileID: 6940545036853225915, guid: 32f8836885bfdb14ba2468042bebc502, type: 3}
-  - {fileID: 8334397361518130097, guid: cd76cce4716294b46bec6bb956bb589b, type: 3}
-  - {fileID: 516322284290018616, guid: 4c17d1fd82a058347b7cab75ded3d970, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  playableCell: {fileID: 0}
 --- !u!114 &307618512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,6 +629,8 @@ MonoBehaviour:
   - {fileID: 6940545036853225915, guid: 32f8836885bfdb14ba2468042bebc502, type: 3}
   - {fileID: 8334397361518130097, guid: cd76cce4716294b46bec6bb956bb589b, type: 3}
   - {fileID: 516322284290018616, guid: 4c17d1fd82a058347b7cab75ded3d970, type: 3}
+  playableCell: {fileID: 141060474551990260, guid: f9440d30c52459f41a232f54625fbb67,
+    type: 3}
 --- !u!1 &1307749243
 GameObject:
   m_ObjectHideFlags: 0

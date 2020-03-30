@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Image))]
-public abstract class Piece : MonoBehaviour, IMatachable, IPointerClickHandler // TODO Input info should be in separate class, and easily extendedable for touch and other systems
+public abstract class Piece : MonoBehaviour, IMatachable
 {
     [Header("Piece Parameters")]
     [SerializeField] private Sprite pieceImage;
@@ -38,23 +37,6 @@ public abstract class Piece : MonoBehaviour, IMatachable, IPointerClickHandler /
     }
     public PieceState InitialPieceState { get => this.initialPieceState; }
     protected PieceState initialPieceState;
-    public Vector2 CellLocation
-    {
-        get
-        {
-            return this.cellLoc;
-        }
-        set
-        {
-            this.initialCellLocation = this.cellLoc;
-            this.cellLoc = value;            
-        }
-    }
-
-    public Vector2 InitialCellLocation { get => this.initialCellLocation; }
-    protected Vector2 initialCellLocation;
-
-    protected Vector2 cellLoc;    
     protected PieceType pieceType;
     protected PieceState currentState;
     public RectTransform PieceRectTransform
@@ -68,10 +50,9 @@ public abstract class Piece : MonoBehaviour, IMatachable, IPointerClickHandler /
 
             return this.pieceRectTransform;
         }
-    }
+    } // TODO These we probably don't need
 
-    private RectTransform pieceRectTransform;
-    public static event System.Action<Piece> OnSelectThisPiece; // TODO Switch to proper observer
+    private RectTransform pieceRectTransform;    
 
     public virtual void Match()
     {
@@ -89,23 +70,12 @@ public abstract class Piece : MonoBehaviour, IMatachable, IPointerClickHandler /
         pieceRectTransform = GetComponent<RectTransform>();
         gamePieceImage = GetComponent<Image>();
         gamePieceImage.sprite = pieceImage;
-        initialCellLocation = cellLoc;
         initialPieceState = currentState;
         initialPieceType = pieceType;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public string Log() // TODO Probably don't need. Also shoudl make an ILoggable
     {
-        SelectObject();
-    }
-
-    private void SelectObject()
-    {
-        OnSelectThisPiece?.Invoke(this);
-    }
-
-    public string Log()
-    {
-       return ($"PieceType: {this.pieceType} PieceState: {this.PieceCurrentState} at grid location: {this.CellLocation}");
+       return ($"PieceType: {this.pieceType} PieceState: {this.PieceCurrentState}");
     }
 }

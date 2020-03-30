@@ -9,8 +9,6 @@ public interface IMatachable
     PieceType PieceCurrentType { get; set; }
     PieceType InitialPieceType { get; }
     Sprite PieceImage { get; }
-    Vector2 CellLocation { get; set; }    
-    Vector2 InitialCellLocation { get; }
     RectTransform PieceRectTransform { get; }
     void SwitchPlace(Vector2 dir);
     void Match();
