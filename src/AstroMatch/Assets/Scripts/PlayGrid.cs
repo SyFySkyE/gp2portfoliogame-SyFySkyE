@@ -10,9 +10,8 @@ public class PlayGrid : MonoBehaviour
 
     [SerializeField] private Piece[] playablePieces;
 
-    private UnityEngine.UI.Image playField; // TODO Should this be exposed? Also this breaks when Rows and/or columns get changed!
-    private List<IMatachable> inGamePieces = new List<IMatachable>();
-    private List<Cell> gridCells = new List<Cell>();
+    private UnityEngine.UI.Image playField; // TODO Should this be exposed? Also this visually breaks when Rows and/or columns get changed!
+    private List<IMatachable> inGamePieces = new List<IMatachable>(); // TODO Do we need this?
 
     // Start is called before the first frame update
     void Start()
@@ -23,31 +22,54 @@ public class PlayGrid : MonoBehaviour
 
     private void InitializeGrid() // TODO This needs to be cleaned up!
     {
-        float startingX = -((playField.rectTransform.sizeDelta.x / 2) - (playablePieces[0].PieceRectTransform.rect.width / 2)); // TODO Since the size is to never change, should just cache a playablePieces size so there isn't so many playablePieces[0] in here and below
-        float startingY = ((playField.rectTransform.sizeDelta.y / 2) - (playablePieces[0].PieceRectTransform.rect.height / 2)); // TODO StartingX and y should be renamed
-        Vector2 startingPos = new Vector2(startingX, startingY);
-        
-        for (int i = 0; i < numberOfColumns; i++)
+        float pieceSizeWidth = playablePieces[0].PieceRectTransform.rect.width;
+        float pieceSizeHeight = playablePieces[0].PieceRectTransform.rect.height;
+
+        float xPiecePlacement = -((playField.rectTransform.sizeDelta.x / 2) - (pieceSizeWidth / 2)); 
+        float yPiecePlacement = ((playField.rectTransform.sizeDelta.y / 2) - (pieceSizeHeight / 2)); 
+        Vector2 piecePlacement = new Vector2(xPiecePlacement, yPiecePlacement); // Where the pieces should start spawning
+
+        for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++)
         {
-            for (int j = 0; j < numberOfRows; j++)
+            for (int currentRow = 0; currentRow < numberOfRows; currentRow++)
             {
-                IMatachable newPiece = Instantiate(playablePieces[Random.Range(0, playablePieces.Length)], this.transform, false); 
-                newPiece.PieceRectTransform.localPosition = startingPos;
+                IMatachable newPiece = Instantiate(playablePieces[Random.Range(0, playablePieces.Length)], this.transform, false);
+                newPiece.PieceRectTransform.localPosition = piecePlacement;
                 inGamePieces.Add(newPiece);
-                Cell newCell = new Cell(i, j, newPiece);
-                gridCells.Add(newCell);
-                startingPos.x += playablePieces[0].PieceRectTransform.rect.width;
+                newPiece.CellLocation = new Vector2(currentRow + 1, currentColumn + 1);
+                piecePlacement.x += pieceSizeWidth;
             }
-            startingPos.y -= playablePieces[0].PieceRectTransform.rect.height;
-            startingPos.x = -((playField.rectTransform.sizeDelta.x / 2) - (playablePieces[0].PieceRectTransform.rect.width / 2));
+            piecePlacement.y -= pieceSizeHeight;
+            piecePlacement.x = -((playField.rectTransform.sizeDelta.x / 2) - (pieceSizeWidth / 2));
+        }
+
+        CheckForMatch();
+    }
+
+    private void CheckForMatch()
+    {
+        foreach (IMatachable piece in inGamePieces)
+        {
+            PieceType currentPieceType = piece.PieceCurrentType;
+            foreach (Vector2 dir in Directions.directions)
+            {
+                piece.CellLocation
+            }
         }
     }
 
-    private void Update()
+    private Vector2 GetGridPoint()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            gridCells[0].SwapCells(gridCells[1]);
-        }
+
+    }
+
+    public void SwapPieces(Piece pieceOne, Piece pieceTwo) 
+    {
+        Vector3 pieceOneTransform = pieceOne.transform.position;
+        Vector3 pieceTwoTransform = pieceTwo.transform.position;
+        pieceOne.transform.position = pieceTwoTransform;
+        pieceTwo.transform.position = pieceOneTransform;
+        pieceOne.CellLocation = pieceTwo.CellLocation;
+        pieceTwo.CellLocation = pieceOne.InitialCellLocation;
     }
 }

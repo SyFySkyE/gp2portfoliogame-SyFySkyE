@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum PieceType 
 {
+    None,
     Ice,
     Purple,
     Red,
@@ -14,6 +15,7 @@ public enum PieceType
 
 public enum PieceState
 {
+    None,
     Normal,
     Flame,
     Glow,

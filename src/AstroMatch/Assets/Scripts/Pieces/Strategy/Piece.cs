@@ -2,17 +2,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Image))]
-public abstract class Piece : MonoBehaviour, IMatachable
+public abstract class Piece : MonoBehaviour, IMatachable, IPointerClickHandler // TODO Input info should be in separate class, and easily extendedable for touch and other systems
 {
     [Header("Piece Parameters")]
     [SerializeField] private Sprite pieceImage;
     public Sprite PieceImage { get => gamePieceImage.sprite; }
     protected Image gamePieceImage;
 
-    public PieceType PieceCurrentType { get => this.pieceType; }
-    public PieceState PieceCurrentState { get => this.currentState; }
+    public PieceType PieceCurrentType
+    {
+        get { return this.pieceType; }
+        set
+        {
+            this.initialPieceType = this.pieceType;
+            this.pieceType = value;
+        }
+    }
+    public PieceType InitialPieceType { get => this.initialPieceType; }
+    
+    protected PieceType initialPieceType;
+    public PieceState PieceCurrentState
+    {
+        get
+        {
+            return this.currentState;
+        }
+        set
+        {
+            this.initialPieceState = this.currentState;
+            this.currentState = value;
+        }
+    }
+    public PieceState InitialPieceState { get => this.initialPieceState; }
+    protected PieceState initialPieceState;
+    public Vector2 CellLocation
+    {
+        get
+        {
+            return this.cellLoc;
+        }
+        set
+        {
+            this.initialCellLocation = this.cellLoc;
+            this.cellLoc = value;            
+        }
+    }
+
+    public Vector2 InitialCellLocation { get => this.initialCellLocation; }
+    protected Vector2 initialCellLocation;
+
+    protected Vector2 cellLoc;    
     protected PieceType pieceType;
     protected PieceState currentState;
     public RectTransform PieceRectTransform
@@ -29,6 +71,7 @@ public abstract class Piece : MonoBehaviour, IMatachable
     }
 
     private RectTransform pieceRectTransform;
+    public static event System.Action<Piece> OnSelectThisPiece; // TODO Switch to proper observer
 
     public virtual void Match()
     {
@@ -46,5 +89,23 @@ public abstract class Piece : MonoBehaviour, IMatachable
         pieceRectTransform = GetComponent<RectTransform>();
         gamePieceImage = GetComponent<Image>();
         gamePieceImage.sprite = pieceImage;
+        initialCellLocation = cellLoc;
+        initialPieceState = currentState;
+        initialPieceType = pieceType;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        SelectObject();
+    }
+
+    private void SelectObject()
+    {
+        OnSelectThisPiece?.Invoke(this);
+    }
+
+    public string Log()
+    {
+       return ($"PieceType: {this.pieceType} PieceState: {this.PieceCurrentState} at grid location: {this.CellLocation}");
     }
 }
