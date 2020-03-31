@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayGrid : MonoBehaviour
+public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's in charge of setting up the playGrid and Matching logic. Can we make Matching logic another ca
 {
     [Header("Grid Parameters")]
     [SerializeField] private int numberOfColumns = 8;
@@ -88,38 +88,6 @@ public class PlayGrid : MonoBehaviour
     {
         List<Cell> connectedTypeCells = new List<Cell>();
         connectedTypeCells.Add(currentCell);
-        foreach (Vector2 dir in Directions.AllDirections)
-        {
-            if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
-            {
-                connectedTypeCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y]);
-            }
-            if (cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
-            {
-                connectedTypeCells.Add(cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y]);
-            }
-        }
-    }
-
-    private List<Cell> GetConnectedCells(Cell currentCell)
-    {
-        List<Cell> connectedTypeCells = new List<Cell>();
-        connectedTypeCells.Add(currentCell);
-        foreach (Vector2 dir in Directions.AllDirections)
-        {
-            if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
-            {
-                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
-                {
-
-                }
-            }
-        }
-    }
-
-    private Cell GetAdjacentCell(Cell currentCell, Vector2 dir)
-    {
-
     }
 
     private bool CheckForMatch(Cell currentCell, Vector2[] directionsToCheck) // TODO This might be able to be cleaned up a bit
@@ -132,10 +100,12 @@ public class PlayGrid : MonoBehaviour
                 {                 
                     if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up?
                     {
+                        
                         return true; // Only gets here if three cells in the same direction have the same piece
                     }
                     else if (cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
                     {
+                        
                         return true; // Only gets here if moving middle piece nets a match
                     }
                 }
