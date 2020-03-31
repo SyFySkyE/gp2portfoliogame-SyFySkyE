@@ -82,17 +82,21 @@ public class PlayGrid : MonoBehaviour
 
     private bool CheckForMatch(Cell currentCell, Vector2[] directionsToCheck) // TODO This might be able to be cleaned up a bit
     {
-        foreach (Vector2 dir in directionsToCheck) // DOESN'T CHECK FOR WHEN MOVING MIDDLE PIECE, NEEDS TO LOOK BOTH LEFT AND RIGHT, UP AND DOWN
+        foreach (Vector2 dir in directionsToCheck) 
         {
             try
             {
-                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up?
-                {
+                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up? 
+                {                 
                     if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up?
-                    {                        
+                    {
                         return true; // Only gets here if three cells in the same direction have the same piece
-                    }                    
-                }                
+                    }
+                    else if (cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
+                    {
+                        return true; // Only gets here if moving middle piece nets a match
+                    }
+                }
             }
             catch
             {                
