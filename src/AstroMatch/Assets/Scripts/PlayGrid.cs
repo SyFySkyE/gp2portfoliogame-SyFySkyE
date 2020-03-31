@@ -66,18 +66,60 @@ public class PlayGrid : MonoBehaviour
         cellTwo.PieceInCell = cellOne.InitialPiece;
         if (!isSwapBack)
         {
-            if (CheckForMatch(cellOne, Directions.AllDirections) || CheckForMatch(cellTwo, Directions.AllDirections)) // Doesn't work
+            bool doesCellOneMatch = CheckForMatch(cellOne, Directions.AllDirections);
+            bool doesCellTwoMatch = CheckForMatch(cellTwo, Directions.AllDirections);
+            if (!doesCellOneMatch && !doesCellTwoMatch) 
             {
-                Debug.Log("Match!");
-            }
-            else
-            {
-                Debug.Log("No Match!");
-                Debug.Log(cellOne.Log());
-                Debug.Log(cellTwo.Log());
                 SwapPieces(cellTwo, cellOne, true); // No Match, swap the cell piece back to whence it came
+                return;
+            }
+            if (doesCellOneMatch)
+            {
+                Match(cellOne);
+            }
+            if (doesCellTwoMatch)
+            {
+                Match(cellTwo);
             }
         }
+    }
+
+    private void Match(Cell currentCell)
+    {
+        List<Cell> connectedTypeCells = new List<Cell>();
+        connectedTypeCells.Add(currentCell);
+        foreach (Vector2 dir in Directions.AllDirections)
+        {
+            if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
+            {
+                connectedTypeCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y]);
+            }
+            if (cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
+            {
+                connectedTypeCells.Add(cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y]);
+            }
+        }
+    }
+
+    private List<Cell> GetConnectedCells(Cell currentCell)
+    {
+        List<Cell> connectedTypeCells = new List<Cell>();
+        connectedTypeCells.Add(currentCell);
+        foreach (Vector2 dir in Directions.AllDirections)
+        {
+            if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
+            {
+                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
+                {
+
+                }
+            }
+        }
+    }
+
+    private Cell GetAdjacentCell(Cell currentCell, Vector2 dir)
+    {
+
     }
 
     private bool CheckForMatch(Cell currentCell, Vector2[] directionsToCheck) // TODO This might be able to be cleaned up a bit
