@@ -42,13 +42,13 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
                 cellArray[currentRow, currentColumn] = Instantiate(playableCell, this.transform, false);
                 cellArray[currentRow, currentColumn].CellLocation = new Vector2(currentRow, currentColumn);               
                 cellArray[currentRow, currentColumn].PieceInCell = Instantiate(playablePieces[Random.Range(0, playablePieces.Length)], cellArray[currentRow, currentColumn].transform, false); // TODO This should be done by the cell's START method, not here!
-                bool doesSpawnMatch = CheckForMatch(cellArray[currentRow, currentColumn], Directions.RecursiveDirections);
+                bool doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.AllDirections);
                 while (doesSpawnMatch) // Ensures that the initial piece spawns does not come with a match three (or more) already in place
                 {
                     cellArray[currentRow, currentColumn].PieceInCell.gameObject.SetActive(false); // TODO Needs to be sent to a pool
                     cellArray[currentRow, currentColumn].PieceInCell = Instantiate(playablePieces[Random.Range(0, playablePieces.Length)], cellArray[currentRow, currentColumn].transform, false);
-                    doesSpawnMatch = CheckForMatch(cellArray[currentRow, currentColumn], Directions.RecursiveDirections);
-                }
+                    doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.RecursiveDirections);
+                }                
                 cellArray[currentRow, currentColumn].RectTransform.localPosition = piecePlacement;             
                 piecePlacement.x += pieceSizeWidth;
             }
@@ -66,8 +66,8 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
         cellTwo.PieceInCell = cellOne.InitialPiece;
         if (!isSwapBack)
         {
-            bool doesCellOneMatch = CheckForMatch(cellOne, Directions.AllDirections);
-            bool doesCellTwoMatch = CheckForMatch(cellTwo, Directions.AllDirections);
+            bool doesCellOneMatch = Match.CheckForInitialMatch(cellOne, cellArray, Directions.AllDirections);
+            bool doesCellTwoMatch = Match.CheckForInitialMatch(cellTwo, cellArray, Directions.AllDirections);
             if (!doesCellOneMatch && !doesCellTwoMatch) 
             {
                 SwapPieces(cellTwo, cellOne, true); // No Match, swap the cell piece back to whence it came
@@ -75,47 +75,12 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
             }
             if (doesCellOneMatch)
             {
-                Match(cellOne);
+                
             }
             if (doesCellTwoMatch)
             {
-                Match(cellTwo);
+                
             }
         }
-    }
-
-    private void Match(Cell currentCell)
-    {
-        List<Cell> connectedTypeCells = new List<Cell>();
-        connectedTypeCells.Add(currentCell);
-    }
-
-    private bool CheckForMatch(Cell currentCell, Vector2[] directionsToCheck) // TODO This might be able to be cleaned up a bit
-    {
-        foreach (Vector2 dir in directionsToCheck) 
-        {
-            try
-            {
-                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up? 
-                {                 
-                    if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up?
-                    {
-                        
-                        return true; // Only gets here if three cells in the same direction have the same piece
-                    }
-                    else if (cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
-                    {
-                        
-                        return true; // Only gets here if moving middle piece nets a match
-                    }
-                }
-            }
-            catch
-            {                
-                // Out of bounds of the array, or that array cell hasn't been initialized
-                // TODO Don't need this so find a way to not do a try catch
-            }            
-        }
-        return false;
     }
 }
