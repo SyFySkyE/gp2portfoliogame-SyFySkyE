@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 
 public class Cell : MonoBehaviour, IPointerClickHandler, ILoggable
 {
-    public Vector2 CellLocation;    
-    private SpriteRenderer spriteRender;
+    public Vector2 CellLocation;
+    private UnityEngine.UI.Image spriteImage;
     public Piece PieceInCell
     {
         get
@@ -40,16 +40,26 @@ public class Cell : MonoBehaviour, IPointerClickHandler, ILoggable
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        spriteImage = GetComponent<UnityEngine.UI.Image>();
     }
 
     public void OnPointerClick(PointerEventData eventData) // TODO Switch to CommandPattern!!
     {
-        SelectCell();
+        if (this.GetType() != typeof(NullPiece))
+        {            
+            SelectCell();
+        }        
     }
 
     private void SelectCell()
     {
+        spriteImage.enabled = !spriteImage.enabled;
         OnSelectThisCell?.Invoke(this);
+    }
+
+    public void DeSelectCell()
+    {
+        spriteImage.enabled = false;
     }
 
     public string Log()

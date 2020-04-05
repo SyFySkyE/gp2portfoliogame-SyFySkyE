@@ -11,6 +11,9 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
     [Header("What piece prefabs to fill cells with")]
     [SerializeField] private Piece[] playablePieces;
 
+    [Header("Null Piece to fill Outer Cells")]
+    [SerializeField] private Piece nullPiece; // TODO FInd this via resources. We don't want a certain designer fucking this up somehow (me)
+
     [Header("An empty cell prefab")]
     [SerializeField] private Cell playableCell;
     
@@ -21,7 +24,7 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
     // Start is called before the first frame update
     void Start()
     {
-        cellArray = new Cell[numberOfColumns, numberOfRows];
+        cellArray = new Cell[numberOfColumns + 2, numberOfRows + 2];
         playField = GetComponent<UnityEngine.UI.Image>();
         InitializeGrid();        
     }
@@ -35,19 +38,21 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
         float yPiecePlacement = ((playField.rectTransform.sizeDelta.y / 2) - (pieceSizeHeight / 2)); 
         Vector2 piecePlacement = new Vector2(xPiecePlacement, yPiecePlacement); // Where the pieces should start spawning
 
-        for (int currentColumn = 0; currentColumn < numberOfColumns; currentColumn++)
+        InitializeNullCells();
+
+        for (int currentColumn = 1; currentColumn <= numberOfColumns; currentColumn++)
         {
-            for (int currentRow = 0; currentRow < numberOfRows; currentRow++)
+            for (int currentRow = 1; currentRow <= numberOfRows; currentRow++)
             {
                 cellArray[currentRow, currentColumn] = Instantiate(playableCell, this.transform, false);
                 cellArray[currentRow, currentColumn].CellLocation = new Vector2(currentRow, currentColumn);               
                 cellArray[currentRow, currentColumn].PieceInCell = Instantiate(playablePieces[Random.Range(0, playablePieces.Length)], cellArray[currentRow, currentColumn].transform, false); // TODO This should be done by the cell's START method, not here!
-                bool doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.AllDirections);
+                bool doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.RecursiveDirections); // MAGIC NUMBER TODO
                 while (doesSpawnMatch) // Ensures that the initial piece spawns does not come with a match three (or more) already in place
                 {
                     cellArray[currentRow, currentColumn].PieceInCell.gameObject.SetActive(false); // TODO Needs to be sent to a pool
                     cellArray[currentRow, currentColumn].PieceInCell = Instantiate(playablePieces[Random.Range(0, playablePieces.Length)], cellArray[currentRow, currentColumn].transform, false);
-                    doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.RecursiveDirections);
+                    doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.RecursiveDirections); // TODO Should only need to use recursive directions!
                 }                
                 cellArray[currentRow, currentColumn].RectTransform.localPosition = piecePlacement;             
                 piecePlacement.x += pieceSizeWidth;
@@ -55,6 +60,49 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
             piecePlacement.y -= pieceSizeHeight;
             piecePlacement.x = -((playField.rectTransform.sizeDelta.x / 2) - (pieceSizeWidth / 2));
         }        
+    }
+
+    private void InitializeNullCells()
+    {
+        for (int currentColumn = 0; currentColumn == 0; currentColumn++)
+        {
+            for (int currentRow = 0; currentRow <= numberOfRows + 1; currentRow++)
+            {
+                cellArray[currentRow, currentColumn] = Instantiate(playableCell, this.transform, false);
+                cellArray[currentRow, currentColumn].CellLocation = new Vector2(currentRow, currentColumn);
+                cellArray[currentRow, currentColumn].PieceInCell = Instantiate(nullPiece, cellArray[currentRow, currentColumn].transform, false);
+            }
+        }
+
+        for (int currentColumn = numberOfColumns + 1; currentColumn == numberOfColumns + 1; currentColumn--)
+        {
+            for (int currentRow = 0; currentRow <= numberOfRows + 1; currentRow++)
+            {
+                cellArray[currentRow, currentColumn] = Instantiate(playableCell, this.transform, false);
+                cellArray[currentRow, currentColumn].CellLocation = new Vector2(currentRow, currentColumn);
+                cellArray[currentRow, currentColumn].PieceInCell = Instantiate(nullPiece, cellArray[currentRow, currentColumn].transform, false);
+            }
+        }
+
+        for (int currentRow = 0; currentRow == 0; currentRow++)
+        {
+            for (int currentColumn = 0; currentColumn <= numberOfColumns + 1; currentColumn++)
+            {
+                cellArray[currentRow, currentColumn] = Instantiate(playableCell, this.transform, false);
+                cellArray[currentRow, currentColumn].CellLocation = new Vector2(currentRow, currentColumn);
+                cellArray[currentRow, currentColumn].PieceInCell = Instantiate(nullPiece, cellArray[currentRow, currentColumn].transform, false);
+            }
+        }
+
+        for (int currentRow = numberOfRows + 1; currentRow == numberOfRows + 1; currentRow++)
+        {
+            for (int currentColumn = 0; currentColumn <= numberOfColumns + 1; currentColumn++)
+            {
+                cellArray[currentRow, currentColumn] = Instantiate(playableCell, this.transform, false);
+                cellArray[currentRow, currentColumn].CellLocation = new Vector2(currentRow, currentColumn);
+                cellArray[currentRow, currentColumn].PieceInCell = Instantiate(nullPiece, cellArray[currentRow, currentColumn].transform, false);
+            }
+        }
     }
 
     public void SwapPieces(Cell cellOne, Cell cellTwo, bool isSwapBack) 
@@ -75,11 +123,19 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
             }
             if (doesCellOneMatch)
             {
-                
+                Debug.Log("Cell One Match!");
+                foreach (Cell currentCell in Match.GetConnectedCells(cellOne, cellArray, Directions.AllDirections))
+                {
+                    currentCell.PieceInCell.gameObject.SetActive(false); // TODO Change transform to a pool!
+                }
             }
             if (doesCellTwoMatch)
             {
-                
+                Debug.Log("Cell Two Match!");
+                foreach (Cell currentCell in Match.GetConnectedCells(cellTwo, cellArray, Directions.AllDirections))
+                {
+                    currentCell.PieceInCell.gameObject.SetActive(false);
+                }
             }
         }
     }

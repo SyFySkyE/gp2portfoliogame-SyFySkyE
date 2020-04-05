@@ -4,7 +4,48 @@ using UnityEngine;
 
 public class Match 
 {
-    public static bool CheckForInitialMatch(Cell currentCell, Cell[,] cellArray, Vector2[] directionsToCheck) // TODO Shouldn't have to constantly send the array over each time!
+    public static List<Cell> GetConnectedCells(Cell currentCell, Cell[,] cellArray, Vector2[] directionsToCheck) // TODO Shouldn't have to constantly send the array over each time!
+    {
+        List<Cell> ConnectedCells = new List<Cell>();
+        foreach (Vector2 dir in directionsToCheck)
+        {
+            try
+            {
+                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up? // If this is true, then we got a two-match at least
+                {
+                    Vector2 matchDir = dir + dir;
+                    ConnectedCells.Add(currentCell);
+                    ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y]);
+                    while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up? // Three Match
+                    {
+                        ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
+                        matchDir += dir;
+                        Debug.Log($"While 1: Direction: {dir} MatchDir: {matchDir}");
+                    }
+                    
+                    // Would have to be just -dir to work WHy not just move over from the newly found connected cell?
+                    matchDir = -dir;
+                    while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
+                    {
+                        ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
+                        matchDir -= dir;
+                        Debug.Log($"While 2: Direction: {dir} MatchDir: {matchDir}");
+                    }
+                    
+                    return ConnectedCells;
+                }
+            }
+            catch // !!! When the checked array is out of index, it skips to here 
+            {
+                return ConnectedCells; 
+                // Out of bounds of the array, or that array cell hasn't been initialized
+                // TODO Don't need this so find a way to not do a try catch
+            }
+        }
+        return ConnectedCells;
+    }    
+
+    public static bool CheckForInitialMatch(Cell currentCell, Cell[,] cellArray, Vector2[] directionsToCheck)
     {
         foreach (Vector2 dir in directionsToCheck)
         {
@@ -14,18 +55,17 @@ public class Match
                 {
                     if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up? // Three Match
                     {
-                        return true; // Only gets here if three cells in the same direction have the same piece
+                        return true;
                     }
                     else if (cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
                     {
-                        return true; // Only gets here if moving middle piece nets a match // Three Match
+                        return true;
                     }
                 }
             }
             catch
             {
-                // Out of bounds of the array, or that array cell hasn't been initialized
-                // TODO Don't need this so find a way to not do a try catch
+                
             }
         }
         return false;

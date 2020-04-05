@@ -222,6 +222,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  nullPiece: {fileID: 0}
   playableCell: {fileID: 0}
 --- !u!114 &307618512
 MonoBehaviour:
@@ -585,7 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 0.47058824}
+  m_Color: {r: 0.6415094, g: 0.6415094, b: 0.6415094, a: 0.6862745}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -629,6 +630,8 @@ MonoBehaviour:
   - {fileID: 6940545036853225915, guid: 32f8836885bfdb14ba2468042bebc502, type: 3}
   - {fileID: 8334397361518130097, guid: cd76cce4716294b46bec6bb956bb589b, type: 3}
   - {fileID: 516322284290018616, guid: 4c17d1fd82a058347b7cab75ded3d970, type: 3}
+  nullPiece: {fileID: 6010281666956904088, guid: 96de9338a8c52cc4d95ddaf44e266a06,
+    type: 3}
   playableCell: {fileID: 141060474551990260, guid: f9440d30c52459f41a232f54625fbb67,
     type: 3}
 --- !u!1 &1307749243
