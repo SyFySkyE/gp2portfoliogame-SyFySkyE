@@ -5,7 +5,7 @@ using UnityEngine;
 public class PieceObjectPool : MonoBehaviour
 {
     [Header("Pieces to Spawn")]
-    [SerializeField] private Piece[] piecePrefabs;
+    [SerializeField] private NormalPiece piecePrefab;
 
     [Header("Object Pool Parameters")]
     [SerializeField] private int initialPoolSize = 10;
@@ -19,7 +19,7 @@ public class PieceObjectPool : MonoBehaviour
 
     private void CreateObjectPool()
     {
-        PiecePool.Instance.CreatePool(piecePrefabs, initialPoolSize, maxPoolSize);
+        PiecePool.Instance.CreatePool(piecePrefab, initialPoolSize, maxPoolSize);
         PiecePool.Instance.PoolObject = this.gameObject;
     }
 }

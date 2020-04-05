@@ -13,14 +13,14 @@ public class PiecePool
     private static object syncRoot = new System.Object();
 
     // Collection of stored Pieces.
-    private List<Piece> pooledPieces;
+    private List<NormalPiece> pooledPieces;
 
     // Pool Size Parameters
     private int initialPoolSize;
     private int maxPoolSize;
 
     // Copies piece array in case we need to increase object pool
-    private Piece[] pieceArray; // TODO Should we make it so we never need this? Ie, if we fill the pool with say, thirty pieces, will we ever need to refill the pool with new Instantiates?
+    private NormalPiece normalPiece; // TODO Should we make it so we never need this? Ie, if we fill the pool with say, thirty pieces, will we ever need to refill the pool with new Instantiates?
 
     public GameObject PoolObject { get; internal set; }
 
@@ -44,14 +44,14 @@ public class PiecePool
 
     private PiecePool() { }
 
-    public void CreatePool(Piece[] pieces, int initialPoolSize, int maxPoolSize)
+    public void CreatePool(NormalPiece piece, int initialPoolSize, int maxPoolSize)
     {
-        pooledPieces = new List<Piece>();
-        pieceArray = pieces;
+        pooledPieces = new List<NormalPiece>();
+        normalPiece = piece;
         for (int i = 0; i < initialPoolSize; i++)
         {
             Debug.Log("Instantiated Piece");
-            Piece newPiece = GameObject.Instantiate(pieces[Random.Range(0, pieces.Length)], Vector3.zero, Quaternion.identity);
+            NormalPiece newPiece = GameObject.Instantiate(normalPiece, Vector3.zero, Quaternion.identity);
 
             newPiece.gameObject.SetActive(true);
             pooledPieces.Add(newPiece);
@@ -78,7 +78,7 @@ public class PiecePool
                 if (this.maxPoolSize > this.pooledPieces.Count)
                 {
                     Debug.Log("Instantiated Piece, pool too small");
-                    Piece newPiece = GameObject.Instantiate(pieceArray[Random.Range(0, pieceArray.Length)], Vector3.zero, Quaternion.identity);
+                    NormalPiece newPiece = GameObject.Instantiate(normalPiece, Vector3.zero, Quaternion.identity);
                     newPiece.gameObject.SetActive(true);
                     pooledPieces.Add(newPiece);
                     return newPiece;
@@ -89,9 +89,8 @@ public class PiecePool
         return null;
     }
 
-    public void AddPieceBackToPool(Piece currentPiece)
+    public void AddPieceBackToPool(NormalPiece currentPiece)
     {
-        currentPiece = pieceArray[Random.Range(0, pieceArray.Length)]; // Randomize piece type
         currentPiece.gameObject.SetActive(false); // This fucks up the prefab for some reason?
         if (this.maxPoolSize > this.pooledPieces.Count)
         {

@@ -11,12 +11,12 @@ public class Match
         {
             try
             {
-                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up? // If this is true, then we got a two-match at least
+                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType) // TODO this is dirty. Can we clean this up? // If this is true, then we got a two-match at least
                 {
                     Vector2 matchDir = dir + dir;
                     ConnectedCells.Add(currentCell);
                     ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y]);
-                    while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up? // Three Match
+                    while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType) // TODO this is dirty. Can we clean this up? // Three Match
                     {
                         ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
                         matchDir += dir;
@@ -24,7 +24,7 @@ public class Match
                     
                     // Would have to be just -dir to work WHy not just move over from the newly found connected cell?
                     matchDir = -dir;
-                    while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
+                    while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
                     {
                         ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
                         matchDir -= dir;
@@ -49,13 +49,13 @@ public class Match
         {
             try
             {
-                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up? // If this is true, then we got a two-match at least
+                if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType) // TODO this is dirty. Can we clean this up? // If this is true, then we got a two-match at least
                 {
-                    if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y + (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType()) // TODO this is dirty. Can we clean this up? // Three Match
+                    if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y + (int)dir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType) // TODO this is dirty. Can we clean this up? // Three Match
                     {
                         return true;
                     }
-                    else if (cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y].PieceInCell.GetType() == currentCell.PieceInCell.GetType())
+                    else if (cellArray[(int)currentCell.CellLocation.x - (int)dir.x, (int)currentCell.CellLocation.y - (int)dir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
                     {
                         return true;
                     }

@@ -8,11 +8,11 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
     [SerializeField] private int numberOfColumns = 8;
     [SerializeField] private int numberOfRows = 8;
 
-    [Header("What piece prefabs to fill cells with")]
-    [SerializeField] private Piece[] playablePieces;
+    [Header("Playable Piece Prefab")]
+    [SerializeField] private NormalPiece playablePiece;
 
     [Header("Null Piece to fill Outer Cells")]
-    [SerializeField] private Piece nullPiece; // TODO FInd this via resources. We don't want a certain designer fucking this up somehow (me)
+    [SerializeField] private NullPiece nullPiece; // TODO FInd this via resources. We don't want a certain designer fucking this up somehow (me)
 
     [Header("An empty cell prefab")]
     [SerializeField] private Cell playableCell;
@@ -31,8 +31,8 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
 
     private void InitializeGrid() // TODO This needs to be cleaned up!
     {
-        float pieceSizeWidth = playablePieces[0].PieceRectTransform.rect.width;
-        float pieceSizeHeight = playablePieces[0].PieceRectTransform.rect.height;
+        float pieceSizeWidth = playablePiece.PieceRectTransform.rect.width;
+        float pieceSizeHeight = playablePiece.PieceRectTransform.rect.height;
 
         float xPiecePlacement = -((playField.rectTransform.sizeDelta.x / 2) - (pieceSizeWidth / 2)); 
         float yPiecePlacement = ((playField.rectTransform.sizeDelta.y / 2) - (pieceSizeHeight / 2)); 
@@ -46,13 +46,13 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
             {
                 cellArray[currentRow, currentColumn] = Instantiate(playableCell, this.transform, false);
                 cellArray[currentRow, currentColumn].CellLocation = new Vector2(currentRow, currentColumn);               
-                cellArray[currentRow, currentColumn].PieceInCell = Instantiate(playablePieces[Random.Range(0, playablePieces.Length)], cellArray[currentRow, currentColumn].transform, false); // TODO This should be done by the cell's START method, not here!
-                bool doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.RecursiveDirections); // MAGIC NUMBER TODO
-                while (doesSpawnMatch) // Ensures that the initial piece spawns does not come with a match three (or more) already in place
+                cellArray[currentRow, currentColumn].PieceInCell = Instantiate(playablePiece, cellArray[currentRow, currentColumn].transform, false); // TODO This should be done by the cell's START method, not here!
+                cellArray[currentRow, currentColumn].PieceInCell.SetupPiece();
+                bool doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.RecursiveDirections); // Ensures that the initial piece spawns does not come with a match three (or more) already in place
+                while (doesSpawnMatch) 
                 {
-                    cellArray[currentRow, currentColumn].PieceInCell.gameObject.SetActive(false); // TODO Needs to be sent to a pool
-                    cellArray[currentRow, currentColumn].PieceInCell = Instantiate(playablePieces[Random.Range(0, playablePieces.Length)], cellArray[currentRow, currentColumn].transform, false);
-                    doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.RecursiveDirections); // TODO Should only need to use recursive directions!
+                    cellArray[currentRow, currentColumn].PieceInCell.SetupPiece(); // Re randomizes piece type
+                    doesSpawnMatch = Match.CheckForInitialMatch(cellArray[currentRow, currentColumn], cellArray, Directions.RecursiveDirections); 
                 }                
                 cellArray[currentRow, currentColumn].RectTransform.localPosition = piecePlacement;             
                 piecePlacement.x += pieceSizeWidth;
@@ -122,7 +122,7 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
                 return;
             }
             if (doesCellOneMatch)
-            {                
+            {
                 foreach (Cell currentCell in Match.GetConnectedCells(cellOne, cellArray, Directions.AllDirections))
                 {
                     currentCell.PieceInCell.Match(); // Send piece back to pool
@@ -131,7 +131,7 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
             if (doesCellTwoMatch)
             {                
                 foreach (Cell currentCell in Match.GetConnectedCells(cellTwo, cellArray, Directions.AllDirections))
-                {
+                {                    
                     currentCell.PieceInCell.Match(); // Send piece back to pool
                 }
             }

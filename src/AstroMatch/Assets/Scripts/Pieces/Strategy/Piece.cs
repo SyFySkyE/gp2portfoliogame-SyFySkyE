@@ -6,9 +6,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Image))]
 public abstract class Piece : MonoBehaviour, IMatachable
 {
-    [Header("Piece Parameters")]
-    [SerializeField] private Sprite pieceImage;
     public Sprite PieceImage { get => gamePieceImage.sprite; }
+    protected bool isNull = false;
     protected Image gamePieceImage;
 
     public PieceType PieceCurrentType
@@ -52,7 +51,7 @@ public abstract class Piece : MonoBehaviour, IMatachable
         }
     } // TODO These we probably don't need
 
-    private RectTransform pieceRectTransform;    
+    protected RectTransform pieceRectTransform;    
 
     public virtual void Match()
     {
@@ -64,18 +63,13 @@ public abstract class Piece : MonoBehaviour, IMatachable
         Debug.Log("Switched places toward " + dir);
     }
 
-    // Start is called before the first frame update
-    protected virtual void Start() // Needs to be protected so it is called by its derived classes
-    {
-        pieceRectTransform = GetComponent<RectTransform>();
-        gamePieceImage = GetComponent<Image>();
-        gamePieceImage.sprite = pieceImage;
-        initialPieceState = currentState;
-        initialPieceType = pieceType;
-    }
-
     public string Log() // TODO Probably don't need. Also shoudl make an ILoggable
     {
        return ($"PieceType: {this.pieceType} PieceState: {this.PieceCurrentState}");
+    }
+
+    public virtual void SetupPiece()
+    {
+
     }
 }

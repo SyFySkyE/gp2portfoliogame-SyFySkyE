@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class NullPiece : Piece
 {
-    protected override void Start()
+    public override void SetupPiece()
     {
-        this.pieceType = PieceType.None;
+        this.isNull = true;
         this.currentState = PieceState.None;
-        base.Start();
     }
 }

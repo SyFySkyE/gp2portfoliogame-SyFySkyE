@@ -10,7 +10,6 @@ public enum PieceType
     Red,
     Sand,
     Water,
-    Sun
 }
 
 public enum PieceState
