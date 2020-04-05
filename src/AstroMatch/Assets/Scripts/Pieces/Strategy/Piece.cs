@@ -56,7 +56,7 @@ public abstract class Piece : MonoBehaviour, IMatachable
 
     public virtual void Match()
     {
-        Debug.Log("Match");
+        //PiecePool.Instance.AddPieceBackToPool(this);
     }
 
     public virtual void SwitchPlace(Vector2 dir)

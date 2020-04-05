@@ -20,7 +20,6 @@ public class Match
                     {
                         ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
                         matchDir += dir;
-                        Debug.Log($"While 1: Direction: {dir} MatchDir: {matchDir}");
                     }
                     
                     // Would have to be just -dir to work WHy not just move over from the newly found connected cell?
@@ -29,7 +28,6 @@ public class Match
                     {
                         ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
                         matchDir -= dir;
-                        Debug.Log($"While 2: Direction: {dir} MatchDir: {matchDir}");
                     }
                     
                     return ConnectedCells;

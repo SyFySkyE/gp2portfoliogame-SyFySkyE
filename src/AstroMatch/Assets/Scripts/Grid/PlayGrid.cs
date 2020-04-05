@@ -122,19 +122,17 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
                 return;
             }
             if (doesCellOneMatch)
-            {
-                Debug.Log("Cell One Match!");
+            {                
                 foreach (Cell currentCell in Match.GetConnectedCells(cellOne, cellArray, Directions.AllDirections))
                 {
-                    currentCell.PieceInCell.gameObject.SetActive(false); // TODO Change transform to a pool!
+                    currentCell.PieceInCell.Match(); // Send piece back to pool
                 }
             }
             if (doesCellTwoMatch)
-            {
-                Debug.Log("Cell Two Match!");
+            {                
                 foreach (Cell currentCell in Match.GetConnectedCells(cellTwo, cellArray, Directions.AllDirections))
                 {
-                    currentCell.PieceInCell.gameObject.SetActive(false);
+                    currentCell.PieceInCell.Match(); // Send piece back to pool
                 }
             }
         }

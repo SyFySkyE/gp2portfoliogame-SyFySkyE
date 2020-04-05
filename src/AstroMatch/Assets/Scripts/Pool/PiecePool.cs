@@ -9,32 +9,49 @@ using UnityEngine;
 
 public class PiecePool 
 {
+    private static volatile PiecePool instance;
+    private static object syncRoot = new System.Object();
+
     // Collection of stored Pieces.
     private List<Piece> pooledPieces;
-
-    // Collection of game pieces
-    private Piece[] samplePieceArray;
-
-    // Samples of pieces
-    private IcePiece icePiece;
-    private WaterPiece waterPiece;
-    private SandPiece sandPiece;
-    private PurplePiece purplePiece;
-    private RedPiece redPiece;
 
     // Pool Size Parameters
     private int initialPoolSize;
     private int maxPoolSize;
 
-    public PiecePool(int initialPoolSize, int maxPoolSize)
-    {
-        samplePieceArray = GetPieceArray();
-        pooledPieces = new List<Piece>();
+    // Copies piece array in case we need to increase object pool
+    private Piece[] pieceArray; // TODO Should we make it so we never need this? Ie, if we fill the pool with say, thirty pieces, will we ever need to refill the pool with new Instantiates?
 
+    public GameObject PoolObject { get; internal set; }
+
+    public static PiecePool Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                lock (syncRoot)
+                {
+                    if (instance == null)
+                    {
+                        instance = new PiecePool();
+                    }
+                }
+            }
+            return instance;
+        }
+    }
+
+    private PiecePool() { }
+
+    public void CreatePool(Piece[] pieces, int initialPoolSize, int maxPoolSize)
+    {
+        pooledPieces = new List<Piece>();
+        pieceArray = pieces;
         for (int i = 0; i < initialPoolSize; i++)
         {
             Debug.Log("Instantiated Piece");
-            Piece newPiece = GameObject.Instantiate(samplePieceArray[Random.Range(0, samplePieceArray.Length)], Vector3.zero, Quaternion.identity);
+            Piece newPiece = GameObject.Instantiate(pieces[Random.Range(0, pieces.Length)], Vector3.zero, Quaternion.identity);
 
             newPiece.gameObject.SetActive(true);
             pooledPieces.Add(newPiece);
@@ -61,25 +78,29 @@ public class PiecePool
                 if (this.maxPoolSize > this.pooledPieces.Count)
                 {
                     Debug.Log("Instantiated Piece, pool too small");
-                    Piece newPiece = GameObject.Instantiate(samplePieceArray[Random.Range(0, samplePieceArray.Length)], Vector3.zero, Quaternion.identity);
+                    Piece newPiece = GameObject.Instantiate(pieceArray[Random.Range(0, pieceArray.Length)], Vector3.zero, Quaternion.identity);
                     newPiece.gameObject.SetActive(true);
                     pooledPieces.Add(newPiece);
                     return newPiece;
                 }
             }
         }
-        Debug.LogError("Cannot retrieve object from pool");
+        Debug.LogError("Cannot retrieve piece from pool");
         return null;
     }
 
-    private Piece[] GetPieceArray()
+    public void AddPieceBackToPool(Piece currentPiece)
     {
-        Piece[] samplePieces = new Piece[4];
-        samplePieces[0] = icePiece;
-        samplePieces[1] = waterPiece;
-        samplePieces[2] = sandPiece;
-        samplePieces[3] = purplePiece;
-        samplePieces[4] = redPiece;
-        return samplePieces;
+        currentPiece = pieceArray[Random.Range(0, pieceArray.Length)]; // Randomize piece type
+        currentPiece.gameObject.SetActive(false); // This fucks up the prefab for some reason?
+        if (this.maxPoolSize > this.pooledPieces.Count)
+        {
+            pooledPieces.Add(currentPiece);
+        }
+        else
+        {
+            Debug.LogError("Tried adding piece back to pool but pool is full! Destroying object...");
+            GameObject.Destroy(currentPiece);
+        }
     }
 }

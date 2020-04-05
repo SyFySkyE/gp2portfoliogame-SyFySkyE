@@ -49,8 +49,8 @@ public class PiecePoolingManager
         }
         else
         {
-            PiecePool nPool = new PiecePool(initialPoolSize, maxPoolSize);
-            PiecePoolingManager.Instance.objectPools.Add(pieceToPool.name, nPool);
+            //PiecePool nPool = new PiecePool(initialPoolSize, maxPoolSize);
+            //PiecePoolingManager.Instance.objectPools.Add(pieceToPool.name, nPool);
             return true;
         }
     }

@@ -120,6 +120,57 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &85821779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 85821780}
+  - component: {fileID: 85821781}
+  m_Layer: 0
+  m_Name: Piece Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &85821780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85821779}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &85821781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85821779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d985959ad03ecc84dafcab14f433e47d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  piecePrefabs:
+  - {fileID: -1669256601243669044, guid: e2478ca6a3b34d74caa441ed5a829a84, type: 3}
+  - {fileID: 4505287879361389198, guid: 05c3f226cb51fad46af13b8fab8562bb, type: 3}
+  - {fileID: 6940545036853225915, guid: 32f8836885bfdb14ba2468042bebc502, type: 3}
+  - {fileID: 8334397361518130097, guid: cd76cce4716294b46bec6bb956bb589b, type: 3}
+  - {fileID: 516322284290018616, guid: 4c17d1fd82a058347b7cab75ded3d970, type: 3}
+  initialPoolSize: 10
+  maxPoolSize: 20
 --- !u!1 &248184959
 GameObject:
   m_ObjectHideFlags: 0
