@@ -67,7 +67,8 @@ public class PiecePool
     {
         for (int i = 0; i < pooledPieces.Count; i++)
         {
-            pooledPieces[i].gameObject.SetActive(true);
+            pooledPieces[i].gameObject.SetActive(true);            
+            pooledPieces[i].SetupPiece();
             pooledPieces.Remove(pooledPieces[i]);
             return pooledPieces[i];
         }
@@ -86,10 +87,11 @@ public class PiecePool
     public void AddPieceBackToPool(NormalPiece currentPiece)
     {
         currentPiece.transform.SetParent(PiecePool.Instance.PoolObject.transform);
+        currentPiece.SetupPiece();
         currentPiece.gameObject.SetActive(false);        
         if (this.maxPoolSize > this.pooledPieces.Count)        
         {
-            Debug.Log("Piece Added");
+            Debug.Log("Piece Added Back to Pool");
             pooledPieces.Add(currentPiece);
         }
         else

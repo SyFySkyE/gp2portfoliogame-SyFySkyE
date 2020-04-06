@@ -124,12 +124,20 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
             if (doesCellOneMatch)
             {
                 MatchCells(Match.GetConnectedCells(cellOne, cellArray, Directions.AllDirections));
+                StartCoroutine(CheckForNewMatchesRoutine());
             }
             if (doesCellTwoMatch)
             {
                 MatchCells(Match.GetConnectedCells(cellTwo, cellArray, Directions.AllDirections));
-            }
-        }
+                StartCoroutine(CheckForNewMatchesRoutine());
+            }            
+        }        
+    }
+
+    private IEnumerator CheckForNewMatchesRoutine() // TODO Change icky coroutine to timer
+    {
+        yield return new WaitForSeconds(1f);
+        CheckForNewMatches();
     }
 
     private void MatchCells(List<Cell> connectedCells)
@@ -138,7 +146,8 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
         {            
             cell.TakePieceOut();
             FillCell(cell);
-        }     
+        }
+        CheckForNewMatches();
     }
 
     private void FillCell(Cell cell)
@@ -157,16 +166,39 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
                 {
                     cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell;
                     cell.SetupPieceTransform();
-                    cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell = null;                    
+                    cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell = null;
                     FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]);
                 }
                 else
                 {
                     cell.PieceInCell = PiecePool.Instance.GetObject();
                     cell.PieceInCell.SetupPiece();
-                    cell.SetupPieceTransform();       
+                    cell.SetupPieceTransform();
                 }
             }
+        }        
+    }
+
+    private void CheckForNewMatches()
+    {
+        foreach (Cell cell in cellArray)
+        {
+            if (cell.PieceInCell.GetType() != typeof(NullPiece))
+            {
+                //while (Match.CheckForInitialMatch(cell, cellArray, Directions.AllDirections))
+                //{
+                //    MatchCells(Match.GetConnectedCells(cell, cellArray, Directions.AllDirections));
+
+
+                //}
+                if (Match.CheckForInitialMatch(cell, cellArray, Directions.AllDirections))
+                {
+                    Debug.Log("owo");
+                    MatchCells(Match.GetConnectedCells(cell, cellArray, Directions.AllDirections));
+                    StartCoroutine(CheckForNewMatchesRoutine());
+                }
+            }
+
         }
     }
 }

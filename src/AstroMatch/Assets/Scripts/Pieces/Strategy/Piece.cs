@@ -66,7 +66,7 @@ public abstract class Piece : MonoBehaviour, IMatachable, ILoggable
 
     public virtual void ResetTransform()
     {
-        this.pieceRectTransform.localPosition = Vector3.zero;
+        this.PieceRectTransform.localPosition = Vector3.zero;
     }
 
     public string Log() 
