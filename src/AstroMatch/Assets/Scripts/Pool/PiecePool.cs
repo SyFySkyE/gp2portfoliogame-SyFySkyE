@@ -53,8 +53,8 @@ public class PiecePool
             Debug.Log("Instantiated Piece");
             NormalPiece newPiece = GameObject.Instantiate(normalPiece, Vector3.zero, Quaternion.identity);
 
-            newPiece.gameObject.SetActive(true);
             pooledPieces.Add(newPiece);
+            newPiece.gameObject.SetActive(false);            
 
             GameObject.DontDestroyOnLoad(newPiece);
         }
@@ -63,28 +63,21 @@ public class PiecePool
         this.maxPoolSize = maxPoolSize;        
     }
 
-    public Piece GetObject()
+    public NormalPiece GetObject()
     {
         for (int i = 0; i < pooledPieces.Count; i++)
         {
-            if (pooledPieces[i].gameObject.activeSelf == false)
-            {
-                pooledPieces[i].gameObject.SetActive(true);
-                pooledPieces[i].SetupPiece();
-                return pooledPieces[i];
-            }
-            else
-            {
-                // If we didn't make it this far, there isn't an inactive object in the pool.
-                if (this.maxPoolSize > this.pooledPieces.Count)
-                {
-                    Debug.Log("Instantiated Piece, pool too small");
-                    NormalPiece newPiece = GameObject.Instantiate(normalPiece, Vector3.zero, Quaternion.identity);
-                    newPiece.gameObject.SetActive(true);
-                    pooledPieces.Add(newPiece);
-                    return newPiece;
-                }
-            }
+            pooledPieces[i].gameObject.SetActive(true);
+            pooledPieces.Remove(pooledPieces[i]);
+            return pooledPieces[i];
+        }
+
+        if (this.maxPoolSize > this.pooledPieces.Count)
+        {
+            Debug.LogWarning("Instantiated Piece, pool too small");
+            NormalPiece newPiece = GameObject.Instantiate(normalPiece, Vector3.zero, Quaternion.identity);
+            newPiece.gameObject.SetActive(true);
+            return newPiece;
         }
         Debug.LogError("Cannot retrieve piece from pool");
         return null;
@@ -92,10 +85,11 @@ public class PiecePool
 
     public void AddPieceBackToPool(NormalPiece currentPiece)
     {
-        currentPiece.gameObject.SetActive(false); // This fucks up the prefab for some reason?
-        if (this.maxPoolSize > this.pooledPieces.Count)
+        currentPiece.transform.SetParent(PiecePool.Instance.PoolObject.transform);
+        currentPiece.gameObject.SetActive(false);        
+        if (this.maxPoolSize > this.pooledPieces.Count)        
         {
-            currentPiece.transform.SetParent(PiecePool.Instance.PoolObject.transform);
+            Debug.Log("Piece Added");
             pooledPieces.Add(currentPiece);
         }
         else

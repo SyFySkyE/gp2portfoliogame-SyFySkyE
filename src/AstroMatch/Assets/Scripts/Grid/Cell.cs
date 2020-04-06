@@ -64,7 +64,9 @@ public class Cell : MonoBehaviour, IPointerClickHandler, ILoggable
 
     public void SetupPieceTransform()
     {
+        this.PieceInCell.gameObject.SetActive(true);
         this.PieceInCell.transform.SetParent(this.transform);
+        this.PieceInCell.ResetTransform();
     }
 
     public string Log()
@@ -72,11 +74,11 @@ public class Cell : MonoBehaviour, IPointerClickHandler, ILoggable
         return $"{this.name} is located at: {this.CellLocation}, contains piece {this.PieceInCell}";
     }
 
-    public void Match()
+    public void TakePieceOut() 
     {
         if (this.PieceInCell != null)
-        {
-            PieceInCell.Match();
+        {            
+            PieceInCell.AddToPool();
             this.PieceInCell = null;
         }        
     }

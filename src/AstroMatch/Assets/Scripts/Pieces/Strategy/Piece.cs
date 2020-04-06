@@ -53,7 +53,7 @@ public abstract class Piece : MonoBehaviour, IMatachable, ILoggable
 
     protected RectTransform pieceRectTransform;    
 
-    public virtual void Match() // Overwritten by subclass to use pools
+    public virtual void AddToPool() // Overwritten by subclass to use pools
     {
         Destroy(this); 
         Debug.LogError(this.name + " was destroyed!");

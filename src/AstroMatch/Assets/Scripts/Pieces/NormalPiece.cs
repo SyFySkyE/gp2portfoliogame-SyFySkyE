@@ -13,12 +13,14 @@ public class NormalPiece : Piece
         this.PieceCurrentType = (PieceType)Random.Range(1, System.Enum.GetValues(typeof(PieceType)).Length); // Get Random Type
         LazyLoadComponents();
         SetupImage();
+        this.ResetTransform();
     }
 
     private void SetupDebugPiece()
     {
         this.PieceCurrentType = this.typeToChange;
         LazyLoadComponents();
+        this.ResetTransform();
         SetupImage();
     }
 
@@ -47,7 +49,7 @@ public class NormalPiece : Piece
     }
 #endif
 
-    public override void Match() // TODO Can be ambigious between this match and Cell's Match(). Also doesn't really explain what it does exactly
+    public override void AddToPool() // TODO Can be ambigious between this match and Cell's Match(). Also doesn't really explain what it does exactly
     {
         PiecePool.Instance.AddPieceBackToPool(this);        
     }
