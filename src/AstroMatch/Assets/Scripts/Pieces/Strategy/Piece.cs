@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
-public abstract class Piece : MonoBehaviour, IMatachable
+public abstract class Piece : MonoBehaviour, IMatachable, ILoggable
 {
     public Sprite PieceImage { get => gamePieceImage.sprite; }
     protected bool isNull = false;
@@ -53,9 +53,10 @@ public abstract class Piece : MonoBehaviour, IMatachable
 
     protected RectTransform pieceRectTransform;    
 
-    public virtual void Match()
+    public virtual void Match() // Overwritten by subclass to use pools
     {
-        //PiecePool.Instance.AddPieceBackToPool(this);
+        Destroy(this); 
+        Debug.LogError(this.name + " was destroyed!");
     }
 
     public virtual void SwitchPlace(Vector2 dir)
@@ -63,13 +64,18 @@ public abstract class Piece : MonoBehaviour, IMatachable
         Debug.Log("Switched places toward " + dir);
     }
 
-    public string Log() // TODO Probably don't need. Also shoudl make an ILoggable
+    public virtual void ResetTransform()
+    {
+        this.pieceRectTransform.localPosition = Vector3.zero;
+    }
+
+    public string Log() 
     {
        return ($"PieceType: {this.pieceType} PieceState: {this.PieceCurrentState}");
     }
 
     public virtual void SetupPiece()
     {
-
+        // Subclasses should overwrite this
     }
 }

@@ -35,7 +35,7 @@ public class Match
             }
             catch // !!! When the checked array is out of index, it skips to here 
             {
-                return ConnectedCells; 
+                continue;
                 // Out of bounds of the array, or that array cell hasn't been initialized
                 // TODO Don't need this so find a way to not do a try catch
             }

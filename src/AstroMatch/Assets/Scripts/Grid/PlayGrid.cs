@@ -123,16 +123,85 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
             }
             if (doesCellOneMatch)
             {
-                foreach (Cell currentCell in Match.GetConnectedCells(cellOne, cellArray, Directions.AllDirections))
-                {
-                    currentCell.PieceInCell.Match(); // Send piece back to pool
-                }
+                MatchCells(Match.GetConnectedCells(cellOne, cellArray, Directions.AllDirections));
             }
             if (doesCellTwoMatch)
+            {
+                MatchCells(Match.GetConnectedCells(cellTwo, cellArray, Directions.AllDirections));
+            }
+        }
+    }
+
+    private void MatchCells(List<Cell> connectedCells)
+    {
+        foreach (Cell cell in connectedCells)
+        {
+            cell.Match();
+            FillCell(cell);
+        }
+        //FillCells(connectedCells);
+    }
+
+    private void FillCells(List<Cell> connectedCells) // Fill empty cell from above cell.
+    {
+        foreach (Cell cell in connectedCells)
+        {
+            int upDir = -1; // Since top left in (0,0), up is -1
+            while (cell.PieceInCell == null)
+            {
+                if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - upDir].PieceInCell == null) // If the cell above is also empty
+                {
+                    upDir--;
+                }
+                else
+                {
+                    if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - upDir].PieceInCell.GetType() != typeof(NullPiece)) // Make sure we're not grabbing from the outer layer
+                    {
+                        cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - upDir].PieceInCell;
+                        cell.SetupPieceTransform();
+                    }
+                    else
+                    {
+                        cell.PieceInCell = PiecePool.Instance.GetObject();
+                        cell.SetupPieceTransform();
+                    }
+                }
+            }
+        }
+    }
+
+    private void FillCell(Cell cell)
+    {
+        int upDir = -1; // Since top left in (0,0), up is -1
+        while (cell.PieceInCell == null)
+        {            
+            if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell == null) // If the cell above is also empty // It's a negative int so add it to go lower
             {                
-                foreach (Cell currentCell in Match.GetConnectedCells(cellTwo, cellArray, Directions.AllDirections))
-                {                    
-                    currentCell.PieceInCell.Match(); // Send piece back to pool
+                Debug.Log($"Cell at: {cell.CellLocation} is empty but above sell at: {cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].CellLocation} is also empty. Looking higher...");
+                upDir--;
+                return;
+            }
+            else
+            {
+                if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell.GetType() != typeof(NullPiece)) // Make sure we're not grabbing from the outer layer
+                {
+                    //cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - upDir].PieceInCell; // Put the non-null cell in current cell
+                    ////cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - upDir].PieceInCell.Match(); // Remove that non-null cell, add to pool
+                    //FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - upDir]); // That cell is empty now, gotta fill it 
+                    //cell.SetupPieceTransform();
+                    Debug.Log($"Cell at: {cell.CellLocation} is empty and wants to grab from above cell {cellArray[(int)cell.CellLocation.x,(int)cell.CellLocation.y + upDir].CellLocation}");
+                    cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell.transform.SetParent(cell.transform);
+                    cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell;
+                    cell.PieceInCell.ResetTransform();
+                    Debug.Log(cell.PieceInCell);
+                    return;
+                }
+                else
+                {
+                    Debug.Log($"Cell at: {cell.CellLocation} is empty but the cell above holds a NULL piece");
+                    //cell.PieceInCell = PiecePool.Instance.GetObject();
+                    //cell.SetupPieceTransform();
+                    return;
                 }
             }
         }

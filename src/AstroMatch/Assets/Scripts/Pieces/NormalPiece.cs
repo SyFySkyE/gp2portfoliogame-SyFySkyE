@@ -46,4 +46,9 @@ public class NormalPiece : Piece
         }
     }
 #endif
+
+    public override void Match() // TODO Can be ambigious between this match and Cell's Match(). Also doesn't really explain what it does exactly
+    {
+        PiecePool.Instance.AddPieceBackToPool(this);        
+    }
 }

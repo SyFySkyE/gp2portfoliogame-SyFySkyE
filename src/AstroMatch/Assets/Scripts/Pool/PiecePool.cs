@@ -70,6 +70,7 @@ public class PiecePool
             if (pooledPieces[i].gameObject.activeSelf == false)
             {
                 pooledPieces[i].gameObject.SetActive(true);
+                pooledPieces[i].SetupPiece();
                 return pooledPieces[i];
             }
             else
@@ -94,6 +95,7 @@ public class PiecePool
         currentPiece.gameObject.SetActive(false); // This fucks up the prefab for some reason?
         if (this.maxPoolSize > this.pooledPieces.Count)
         {
+            currentPiece.transform.SetParent(PiecePool.Instance.PoolObject.transform);
             pooledPieces.Add(currentPiece);
         }
         else

@@ -62,8 +62,22 @@ public class Cell : MonoBehaviour, IPointerClickHandler, ILoggable
         spriteImage.enabled = false;
     }
 
+    public void SetupPieceTransform()
+    {
+        this.PieceInCell.transform.SetParent(this.transform);
+    }
+
     public string Log()
     {
         return $"{this.name} is located at: {this.CellLocation}, contains piece {this.PieceInCell}";
+    }
+
+    public void Match()
+    {
+        if (this.PieceInCell != null)
+        {
+            PieceInCell.Match();
+            this.PieceInCell = null;
+        }        
     }
 }

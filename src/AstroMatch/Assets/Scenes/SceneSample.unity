@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   piecePrefab: {fileID: -3687721357954555803, guid: 2858e4e585005ef46989f3ba142202b9,
     type: 3}
-  initialPoolSize: 10
+  initialPoolSize: 3
   maxPoolSize: 20
 --- !u!1 &248184959
 GameObject:
