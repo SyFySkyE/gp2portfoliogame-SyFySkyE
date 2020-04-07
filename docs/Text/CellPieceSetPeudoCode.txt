@@ -1,0 +1,21 @@
+cell one has purple
+cell two has red
+
+cell1.piece(purple) = cell2.piece (red)
+	cell1.initalpiece = purple.
+	cell1.actualpiece = red.
+
+cell2.piece(red) = cell1.initialpiece(purple)
+	cell2.initialpiece = red
+	cell2.actualpiece = purple
+
+cell1.piece = red, inital purple
+cell2.piece = purple, inital red
+
+cell1.piece(red) = cell2.pece(purple)
+	cell1.initalpiece = red
+	cell1.actualpiece = purple
+
+cell2.piece(purple) = cell1.initalpiece(red)
+	cell2.initalpiece = purple
+	cell.actual = red

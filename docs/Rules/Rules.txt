@@ -1,0 +1,11 @@
+Each player starts off at 30 seconds.
+Matching increases own timer.
+Matching 3 increases x sec.
+Matching 4 increases xx sec, creates flame piece.
+Flame piece when destroyed has minor negative impact on other player.
+Matching T and L matches creates star piece, increases xx sec.
+Star piece when destroyed has mid negative impact on other player.
+Matching 5 creats Sun piece, increases xxx sec.
+When activated, has large negative impact on other player.
+// Sun piece is matched with a gem, elimates all colors of that gem, matching two elimates all
+Player wins when other player's timer reaches 0.
