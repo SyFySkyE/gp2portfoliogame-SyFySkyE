@@ -144,7 +144,10 @@ public class PlayGrid : MonoBehaviour
     {
         foreach (Cell cell in connectedCells)
         {            
-            cell.TakePieceOut();
+            cell.TakePieceOut();            
+        }
+        foreach(Cell cell in connectedCells)
+        {
             FillCell(cell);
         }
         CheckForNewMatches();

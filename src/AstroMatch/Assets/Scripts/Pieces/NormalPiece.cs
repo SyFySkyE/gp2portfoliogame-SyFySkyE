@@ -8,13 +8,9 @@ public class NormalPiece : Piece
     [SerializeField] private PieceType typeToChange;
     [SerializeField] private PieceState stateToChange;
 
-    private void OnEnable()
-    {
-        Debug.Log(this.PieceCurrentType);
-    }
-
     public override void SetupPiece()
     {
+        Debug.Log(1);
         Random.InitState(System.DateTime.Now.Millisecond);
         this.PieceCurrentType = (PieceType)Random.Range(1, System.Enum.GetValues(typeof(PieceType)).Length); // Get Random Type
         LazyLoadComponents();
