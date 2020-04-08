@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class Cell : MonoBehaviour, IPointerClickHandler, ILoggable
+public class Cell : MonoBehaviour, ILoggable
 {
     public Vector2 CellLocation;
     private UnityEngine.UI.Image spriteImage;
@@ -43,15 +42,7 @@ public class Cell : MonoBehaviour, IPointerClickHandler, ILoggable
         spriteImage = GetComponent<UnityEngine.UI.Image>();
     }
 
-    public void OnPointerClick(PointerEventData eventData) // TODO Switch to CommandPattern!!
-    {
-        if (this.GetType() != typeof(NullPiece))
-        {            
-            SelectCell();
-        }        
-    }
-
-    private void SelectCell()
+    public void SelectCell()
     {
         spriteImage.enabled = !spriteImage.enabled;
         OnSelectThisCell?.Invoke(this);

@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     [Header("This player's grid")]
     [SerializeField] private PlayGrid playerGrid;
 
-    private Cell cellSelected;    
+    private Cell cellSelected;
 
     #region EventSubscriptions
     private void OnEnable()

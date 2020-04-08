@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's in charge of setting up the playGrid and Matching logic. Can we make Matching logic another ca
+public class PlayGrid : MonoBehaviour 
 {
     [Header("Grid Parameters")]
     [SerializeField] private int numberOfColumns = 8;
@@ -193,7 +193,6 @@ public class PlayGrid : MonoBehaviour // TODO Not happy with this class as it's 
                 //}
                 if (Match.CheckForInitialMatch(cell, cellArray, Directions.AllDirections))
                 {
-                    Debug.Log("owo");
                     MatchCells(Match.GetConnectedCells(cell, cellArray, Directions.AllDirections));
                     StartCoroutine(CheckForNewMatchesRoutine());
                 }
