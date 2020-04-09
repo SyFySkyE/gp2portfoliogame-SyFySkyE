@@ -59,7 +59,7 @@ public class PlayGrid : MonoBehaviour
             }
             piecePlacement.y -= pieceSizeHeight;
             piecePlacement.x = -((playField.rectTransform.sizeDelta.x / 2) - (pieceSizeWidth / 2));
-        }        
+        }
     }
 
     private void InitializeNullCells()
@@ -124,12 +124,12 @@ public class PlayGrid : MonoBehaviour
             if (doesCellOneMatch)
             {
                 MatchCells(Match.GetConnectedCells(cellOne, cellArray, Directions.AllDirections));
-                StartCoroutine(CheckForNewMatchesRoutine());
+                //StartCoroutine(CheckForNewMatchesRoutine());
             }
             if (doesCellTwoMatch)
             {
                 MatchCells(Match.GetConnectedCells(cellTwo, cellArray, Directions.AllDirections));
-                StartCoroutine(CheckForNewMatchesRoutine());
+                //StartCoroutine(CheckForNewMatchesRoutine());
             }            
         }        
     }
@@ -137,20 +137,20 @@ public class PlayGrid : MonoBehaviour
     private IEnumerator CheckForNewMatchesRoutine() // TODO Change icky coroutine to timer
     {
         yield return new WaitForSeconds(1f);
-        CheckForNewMatches();
+        //CheckForNewMatches();
     }
 
     private void MatchCells(List<Cell> connectedCells)
     {
         foreach (Cell cell in connectedCells)
         {            
-            cell.TakePieceOut();            
+            cell.TakePieceOut(); // Takes piece out and nulls cell Piece
         }
         foreach(Cell cell in connectedCells)
         {
-            FillCell(cell);
+            //FillCell(cell);
         }
-        CheckForNewMatches();
+        //CheckForNewMatches();
     }
 
     private void FillCell(Cell cell)
@@ -161,7 +161,7 @@ public class PlayGrid : MonoBehaviour
         {
             if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell == null)
             {
-                upDir--;
+                FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]); 
             }
             else
             {
@@ -169,17 +169,16 @@ public class PlayGrid : MonoBehaviour
                 {
                     cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell;
                     cell.SetupPieceTransform();
-                    cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell = null;
-                    FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]);
+                    cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell = null; 
+                    FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]);                    
                 }
                 else
                 {
                     cell.PieceInCell = PiecePool.Instance.GetObject();
-                    cell.PieceInCell.SetupPiece();
                     cell.SetupPieceTransform();
                 }
             }
-        }        
+        }
     }
 
     private void CheckForNewMatches()
@@ -188,19 +187,12 @@ public class PlayGrid : MonoBehaviour
         {
             if (cell.PieceInCell.GetType() != typeof(NullPiece))
             {
-                //while (Match.CheckForInitialMatch(cell, cellArray, Directions.AllDirections))
-                //{
-                //    MatchCells(Match.GetConnectedCells(cell, cellArray, Directions.AllDirections));
-
-
-                //}
                 if (Match.CheckForInitialMatch(cell, cellArray, Directions.AllDirections))
                 {
                     MatchCells(Match.GetConnectedCells(cell, cellArray, Directions.AllDirections));
                     StartCoroutine(CheckForNewMatchesRoutine());
                 }
             }
-
         }
     }
 }

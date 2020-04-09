@@ -65,12 +65,12 @@ public class PiecePool
 
     public NormalPiece GetObject()
     {
-        for (int i = 0; i < pooledPieces.Count; i++)
+        if (pooledPieces.Count > 0)
         {
-            pooledPieces[i].gameObject.SetActive(true);            
-            pooledPieces[i].SetupPiece();
-            pooledPieces.Remove(pooledPieces[i]);
-            return pooledPieces[i];
+            int randomIndex = Random.Range(0, pooledPieces.Count - 1);
+            pooledPieces[randomIndex].gameObject.SetActive(true);
+            pooledPieces.Remove(pooledPieces[randomIndex]);
+            return pooledPieces[randomIndex];
         }
 
         if (this.maxPoolSize > this.pooledPieces.Count)
@@ -87,7 +87,6 @@ public class PiecePool
     public void AddPieceBackToPool(NormalPiece currentPiece)
     {
         currentPiece.transform.SetParent(PiecePool.Instance.PoolObject.transform);
-        currentPiece.SetupPiece();
         currentPiece.gameObject.SetActive(false);        
         if (this.maxPoolSize > this.pooledPieces.Count)        
         {
