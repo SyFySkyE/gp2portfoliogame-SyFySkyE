@@ -4,43 +4,58 @@ using UnityEngine;
 
 public class Match 
 {
-    private static int matchMinimum = 3; // TODO Break up large if lines
+    private static int matchMinimum = 3; 
 
     public static List<Cell> GetConnectedCells(Cell currentCell, Cell[,] cellArray, Vector2[] directionsToCheck)
     {
+        bool isCornerPiece = false;
         List<Cell> connectedCells = null;
         foreach (Vector2 dir in directionsToCheck)
         {
-            if (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell != null && cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
+            if (!IsCellPieceNull(cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y]) && 
+                cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
             {
-
                 // By here, we have a two match
                 connectedCells = new List<Cell>(); // TODO Do we hafta initialize it only when we have a two match?
                 connectedCells.Add(currentCell);
                 connectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y]);
                 Vector2 matchDir = dir + dir;
-                if (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell != null && cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType) // Match three, from one end
-                {                    
+
+                if (!IsCellPieceNull(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y] )&& 
+                    cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType) // Match three, from one end
+                {
+                    isCornerPiece = true;
                     connectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
-                    matchDir += dir;
-                    Debug.Log("1");
-                    while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell != null && cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
+                    matchDir += dir; 
+                    while (!IsCellPieceNull(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y] ) && 
+                        cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
                     {
                         connectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
                         matchDir += dir;
-                    }                    
+                    }                
                 }
 
                 matchDir = -dir;
 
-                if (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell != null && cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType) // Match three, from one end
+                if (!IsCellPieceNull(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]) && 
+                    cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType) // Match three, from the middle
                 {
+                    isCornerPiece = false;
                     connectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
                     matchDir -= dir;
-                    while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell != null && cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
+                    while (!cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y] && 
+                        cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
                     {
                         connectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
                         matchDir -= dir;
+                    }
+                }
+
+                if (isCornerPiece)
+                {
+                    foreach (Cell cell in GetLShapedConnectedCells(currentCell, cellArray, dir))
+                    {
+                        connectedCells.Add(cell);
                     }
                 }
             }
@@ -56,54 +71,52 @@ public class Match
         return null; // If we reach here, no match was made
     }
 
-    //public static List<Cell> GetLConnectedCells(Cell currentCell, Vector2 matchingDir)
-    //{
-    //    List<Cell> ConnectedCells = new List<Cell>();
-    //    foreach (Vector2 dir in Directions.AllDirections)
-    //    {
-    //        if (matchingDir == dir || -matchingDir == dir)
-    //        {
-    //            break;
-    //        }
-    //        try
-    //        {
-    //            Vector2 matchDir = dir + dir;
-    //            if (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType) // TODO this is dirty. Can we clean this up? // If this is true, then we got a two-match at least
-    //            {                    
-    //                ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y]);
-    //                while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
-    //                {
-    //                    ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
-    //                    matchDir += dir;
-    //                }
+    private static List<Cell> GetLShapedConnectedCells(Cell currentCell, Cell[,] cellArray, Vector2 matchingDir)
+    {
+        List<Cell> lConnectedCells = new List<Cell>();
+        Vector2[] perpendicularDir = new Vector2[2];
+        if (matchingDir.x != 0)
+        {
+            perpendicularDir[0] = Vector2.up;
+            perpendicularDir[1] = Vector2.down;            
+        }
+        else if (matchingDir.y != 0)
+        {
+            perpendicularDir[0] = Vector2.left;
+            perpendicularDir[1] = Vector2.right;
+        }
 
-    //                matchDir = -dir;
-    //                while (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)
-    //                {
-    //                    ConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
-    //                    matchDir -= dir;
-    //                }
 
-    //                return ConnectedCells;
-    //            }
-    //        }
-    //        catch // !!! When the checked array is out of index, it skips to here 
-    //        {
-    //            if (ConnectedCells.Count == 0)
-    //            {
-    //                continue;
-    //            }
-    //            else
-    //            {
-    //                return ConnectedCells;
-    //            }
+        foreach (Vector2 dir in perpendicularDir)
+        {
+            if (CheckForInitialMatch(currentCell, cellArray, perpendicularDir))
+            {
+                if (!IsCellPieceNull(cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y]) && (cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)) // Match Two
+                {                    
+                    Vector2 matchDir = dir + dir;
+                    if (!IsCellPieceNull(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]) &&
+                        (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType)) // Match Three
+                    {
+                        lConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)dir.x, (int)currentCell.CellLocation.y + (int)dir.y]);
+                        while (!IsCellPieceNull(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]) &&
+                        (cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y].PieceInCell.PieceCurrentType == currentCell.PieceInCell.PieceCurrentType))
+                        {
+                            lConnectedCells.Add(cellArray[(int)currentCell.CellLocation.x + (int)matchDir.x, (int)currentCell.CellLocation.y + (int)matchDir.y]);
+                            matchDir += dir;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return lConnectedCells;
+    }
 
-    //            // Out of bounds of the array, or that array cell hasn't been initialized
-    //            // TODO Don't need this so find a way to not do a try catch
-    //        }
-    //    }
-    //    return ConnectedCells;
-    //}
+    public static bool IsCellPieceNull(Cell cell)
+    {
+        if (cell.PieceInCell == null) return true;
+        else return false;        
+    }
 
     public static bool CheckForInitialMatch(Cell currentCell, Cell[,] cellArray, Vector2[] directionsToCheck)
     {

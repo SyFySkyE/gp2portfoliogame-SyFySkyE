@@ -51,7 +51,6 @@ public class NormalPiece : Piece
         {
             SetupDebugPiece();
         }
-        Debug.Log(System.DateTime.Now.Millisecond);
     }
 #endif
 
