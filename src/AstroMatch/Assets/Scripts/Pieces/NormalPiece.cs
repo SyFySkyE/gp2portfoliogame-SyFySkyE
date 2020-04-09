@@ -14,8 +14,7 @@ public class NormalPiece : Piece
     }
 
     public override void SetupPiece()
-    {
-        Random.InitState(Random.Range(0, System.DateTime.Now.Millisecond));
+    {        
         this.PieceCurrentType = (PieceType)Random.Range(1, System.Enum.GetValues(typeof(PieceType)).Length); // Get Random Type
         LazyLoadComponents();
         SetupImage();
@@ -52,6 +51,7 @@ public class NormalPiece : Piece
         {
             SetupDebugPiece();
         }
+        Debug.Log(System.DateTime.Now.Millisecond);
     }
 #endif
 
