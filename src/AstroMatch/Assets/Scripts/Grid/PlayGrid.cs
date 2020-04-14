@@ -143,14 +143,44 @@ public class PlayGrid : MonoBehaviour
     private void MatchCells(List<Cell> connectedCells)
     {
         foreach (Cell cell in connectedCells)
-        {            
-            cell.TakePieceOut(); // Takes piece out and nulls cell Piece
-        }
-        foreach(Cell cell in connectedCells)
         {
-            //FillCell(cell);
+            cell.TakePieceOut(); // Takes piece out and nulls cell Piece            
+        }
+        foreach (Cell cell in connectedCells)
+        {
+            FillCell(cell);
+            //FillCellNew(cell);
         }
         //CheckForNewMatches();
+    }
+
+    private void FillCellNew(Cell cell)
+    {
+        //if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1].PieceInCell == null)
+        //{
+        //    FillCellNew(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1]);
+        //}
+
+        cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1].PieceInCell;
+        cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1].PieceInCell = null;
+        cell.SetupPieceTransform();
+
+        if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1].PieceInCell == null)
+        {
+            FillCellNew(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1]);
+        }
+        else if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1].PieceInCell.GetType() == typeof(NullPiece))
+        {
+            cell.PieceInCell = PiecePool.Instance.GetObject();
+            cell.SetupPieceTransform();
+        }
+        else
+        {
+            cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1].PieceInCell;
+            cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1].PieceInCell = null;
+            cell.SetupPieceTransform();
+            FillCellNew(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1]);
+        }
     }
 
     private void FillCell(Cell cell)
@@ -169,7 +199,7 @@ public class PlayGrid : MonoBehaviour
                 {
                     cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell;
                     cell.SetupPieceTransform();
-                    cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell = null; 
+                    cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell = null;
                     FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]);                    
                 }
                 else

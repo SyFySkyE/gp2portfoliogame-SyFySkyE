@@ -56,7 +56,7 @@ public class Cell : MonoBehaviour, ILoggable
     public void SetupPieceTransform()
     {
         this.PieceInCell.gameObject.SetActive(true);
-        this.PieceInCell.transform.SetParent(this.transform);
+        this.PieceInCell.gameObject.transform.SetParent(this.transform);
         this.PieceInCell.ResetTransform();
     }
 
