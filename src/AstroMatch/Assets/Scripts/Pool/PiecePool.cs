@@ -87,11 +87,11 @@ public class PiecePool
     public void AddPieceBackToPool(NormalPiece currentPiece)
     {
         currentPiece.transform.SetParent(PiecePool.Instance.PoolObject.transform);
-        currentPiece.gameObject.SetActive(false);        
+        currentPiece.gameObject.SetActive(false);
         if (this.maxPoolSize > this.pooledPieces.Count)        
         {
             Debug.Log("Piece Added Back to Pool");
-            pooledPieces.Add(currentPiece);
+            pooledPieces.Add(currentPiece);            
         }
         else
         {

@@ -123,7 +123,7 @@ public class PlayGrid : MonoBehaviour
             }
             if (doesCellOneMatch)
             {
-                MatchCells(Match.GetConnectedCells(cellOne, cellArray, Directions.AllDirections));
+                MatchCells(Match.GetConnectedCells(cellOne, cellArray, Directions.AllDirections)); // Gets list of connected cells with some piece types
                 //StartCoroutine(CheckForNewMatchesRoutine());
             }
             if (doesCellTwoMatch)
@@ -144,7 +144,7 @@ public class PlayGrid : MonoBehaviour
     {
         foreach (Cell cell in connectedCells)
         {
-            cell.TakePieceOut(); // Takes piece out and nulls cell Piece            
+            cell.TakePieceOut(); // Takes piece out, adds to pool and nulls cell Piece            
         }
         foreach (Cell cell in connectedCells)
         {
@@ -154,7 +154,7 @@ public class PlayGrid : MonoBehaviour
         //CheckForNewMatches();
     }
 
-    private void FillCellNew(Cell cell)
+    private void FillCellNew(Cell cell) // This is jsut me attempting to make another one 
     {
         //if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y - 1].PieceInCell == null)
         //{
@@ -189,9 +189,38 @@ public class PlayGrid : MonoBehaviour
 
         while (cell.PieceInCell == null)
         {
+            if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell == null) // IF the cell above's piece in cell is also empty
+            {
+                //upDir--; // Then look higher 
+                FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]); 
+            }
+            else
+            {
+                if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell.GetType() != typeof(NullPiece)) // Valid playable piece
+                {
+                    cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell;
+                    cell.SetupPieceTransform(); // Set new peice in cell to be active, make it a child of the cell and make sure its local rectTransform is zero'd out
+                    cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell = null;
+                    FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]); // Fill the cell of the one we just robbed      
+                }
+                else
+                {
+                    cell.PieceInCell = PiecePool.Instance.GetObject(); // We're in the top row so we gotta pull a new piece
+                    cell.SetupPieceTransform();
+                }
+            }
+        }
+    }
+
+    private void FillNewNewCell(Cell cell) // Attempting it again
+    {
+        int upDir = -1; // Since top left in (0,0), up is -1
+
+        while (cell.PieceInCell == null)
+        {
             if (cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell == null)
             {
-                FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]); 
+                upDir--;
             }
             else
             {
@@ -200,7 +229,7 @@ public class PlayGrid : MonoBehaviour
                     cell.PieceInCell = cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell;
                     cell.SetupPieceTransform();
                     cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir].PieceInCell = null;
-                    FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]);                    
+                    FillCell(cellArray[(int)cell.CellLocation.x, (int)cell.CellLocation.y + upDir]);
                 }
                 else
                 {
