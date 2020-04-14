@@ -18,7 +18,7 @@ public class PlayerNew : MonoBehaviour
     {
         if (pieceSelected == null)
         {
-            pieceSelected = playerGrid.PieceArray[(int)cellLocation.x, (int)cellLocation.y];
+            //pieceSelected = playerGrid.PieceArray[(int)cellLocation.x, (int)cellLocation.y];
         }
         else
         {
@@ -30,12 +30,12 @@ public class PlayerNew : MonoBehaviour
     {
         foreach (Vector2 dir in Directions.AllDirections)
         {
-            if ((this.pieceSelected.Location) + dir == playerGrid.PieceArray[(int)cellLocation.x, (int)cellLocation.y].Location)
-            {
-                pieceSelected = null;
-                Debug.Log("Clicked a good peice");
-                return;
-            }
+            //if ((this.pieceSelected.Location) + dir == playerGrid.PieceArray[(int)cellLocation.x, (int)cellLocation.y].Location)
+            //{
+            //    pieceSelected = null;
+            //    Debug.Log("Clicked a good peice");
+            //    return;
+            //}
         }
 
         pieceSelected = null;

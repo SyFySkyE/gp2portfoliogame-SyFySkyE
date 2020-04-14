@@ -13,6 +13,12 @@ public class Grid
     {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
+        InitializeGrid();
+    }
+
+    private void InitializeGrid()
+    {
+        PieceArray = new SinglePiece[this.numberOfColumns + 2, this.numberOfRows + 2];
         InitializeNullCells();
         InitializeNormalCells();
     }
