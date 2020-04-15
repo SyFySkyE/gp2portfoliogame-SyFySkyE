@@ -30,19 +30,14 @@ public class UnityGrid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UnityPiece.OnPieceSelect += UnityPiece_OnPieceSelect;
-#if UNITY_EDITOR
-        UnityPiece.OnDebugTypeChange += UnityPiece_OnDebugTypeChange;
-#endif
         conceptualGrid = new Grid(numberOfColumns, numberOfRows);
-        unityPieces = new UnityPiece[numberOfColumns + 2, numberOfRows + 2];
+        unityPieces = new UnityPiece[numberOfColumns + 2, numberOfRows + 2];        
         playField = GetComponent<Image>();
         DrawCells();
-    }
-
-    private void UnityPiece_OnDebugTypeChange(SinglePieceType obj)
-    {
-        throw new NotImplementedException();
+        foreach (UnityPiece uPiece in unityPieces) 
+        {
+            uPiece.OnPieceSelect += UnityPiece_OnPieceSelect;
+        }
     }
 
     private void UnityPiece_OnPieceSelect(Vector2 location)
@@ -190,4 +185,39 @@ public class UnityGrid : MonoBehaviour
                 return emptyImage;
         }
     }
+#if UNITY_EDITOR
+    private void Update()
+    {
+        DebugPieceType();
+    }
+
+    private void DebugPieceType() // Press corresponding key to change type. For testing edge cases and specific scenarios
+    {
+        if (pieceSelected != null && Input.anyKeyDown)
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                pieceSelected.PieceType = SinglePieceType.Ice;               
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                pieceSelected.PieceType = SinglePieceType.Red;
+            }
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+                pieceSelected.PieceType = SinglePieceType.Water;
+            }
+            else if (Input.GetKeyDown(KeyCode.P))
+            {
+                pieceSelected.PieceType = SinglePieceType.Purple;
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                pieceSelected.PieceType = SinglePieceType.Sand;
+            }            
+            conceptualGrid.SetPieceType(pieceSelected.Location, pieceSelected.PieceType);
+            unityPieces[(int)pieceSelected.Location.x, (int)pieceSelected.Location.y].SetImage(GetSprite(pieceSelected));
+        }
+    }
+#endif
 }

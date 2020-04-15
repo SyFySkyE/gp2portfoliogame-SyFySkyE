@@ -83,6 +83,11 @@ public class Grid
         this.PieceArray[(int)pieceLocation.x, (int)pieceLocation.y].PieceType = SinglePieceType.None;
     }
 
+    public void SetPieceType(Vector2 pieceLocation, SinglePieceType newType) // For debug purposes
+    {
+        this.PieceArray[(int)pieceLocation.x, (int)pieceLocation.y].PieceType = newType;
+    }
+
     public void ResetPieceLocation(Vector2 pieceLocation)
     {
         PieceArray[(int)pieceLocation.x, (int)pieceLocation.y].Location = pieceLocation;
