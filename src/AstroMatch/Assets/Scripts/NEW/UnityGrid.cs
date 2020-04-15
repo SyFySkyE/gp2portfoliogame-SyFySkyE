@@ -113,7 +113,6 @@ public class UnityGrid : MonoBehaviour
         
         foreach (SinglePiece piece in matchingPieces)
         {
-            Debug.Log(piece.PieceType + " at " + piece.Location);
             conceptualGrid.SetPieceToNull(piece.Location);
             unityPieces[(int)piece.Location.x, (int)piece.Location.y].SetImage(GetSprite(piece));
             //unityPieces[(int)piece.Location.x, (int)piece.Location.y].Match();
@@ -121,7 +120,9 @@ public class UnityGrid : MonoBehaviour
         foreach (SinglePiece piece in matchingPieces)
         {
             FillCell(piece.Location);
-        }            
+        }
+
+        CheckForNewMatches();
     }
 
     private void UpdateGameObjectGrid(Vector2 pieceOneLoc, Vector2 pieceTwoLoc)
@@ -199,6 +200,20 @@ public class UnityGrid : MonoBehaviour
                 piecePlacement.x = -(playField.rectTransform.rect.width / 2) - (pieceSizeWidth / 2);
             }
             unityPieces[(int)currentPiece.Location.x, (int)currentPiece.Location.y] = newPiece;
+        }
+    }
+
+    private void CheckForNewMatches()
+    {
+        foreach (SinglePiece piece in conceptualGrid.PieceArray)
+        {
+            if (piece.PieceType != SinglePieceType.None)
+            {
+                if (Matching.CheckInitialMatch(piece, conceptualGrid.PieceArray, Directions.AllDirections))
+                {
+                    Match(piece.Location);
+                }
+            }
         }
     }
 

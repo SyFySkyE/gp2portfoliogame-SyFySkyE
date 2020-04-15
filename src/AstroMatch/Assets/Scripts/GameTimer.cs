@@ -12,7 +12,7 @@ public class GameTimer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeText = GetComponent<TMPro.TextMeshProUGUI>();
+        timeText = GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
 
     // Update is called once per frame
