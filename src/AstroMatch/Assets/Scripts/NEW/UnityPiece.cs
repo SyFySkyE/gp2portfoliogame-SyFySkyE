@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UnityPiece : MonoBehaviour
 {
+    public static event System.Action<SinglePieceType> OnDebugTypeChange; // So we can change the type for debugging purposes. We have to notify so the conceptual counterpart gets changed, too
+
     public UnityEngine.UI.Image SpriteImage
     {
         get
@@ -17,7 +19,7 @@ public class UnityPiece : MonoBehaviour
     }
     private UnityEngine.UI.Image spriteImage;
     public Vector2 pieceLocation;
-    public static event System.Action<Vector2> OnPieceSelect;
+    public static event System.Action<Vector2> OnPieceSelect;    
     public RectTransform UnityPieceRectTransform
     {
         get
@@ -46,8 +48,12 @@ public class UnityPiece : MonoBehaviour
 
     public void SelectPiece()
     {
-        isSelected = true;
         OnPieceSelect?.Invoke(this.pieceLocation);
+    }
+
+    public void UISelectPiece()
+    {
+        isSelected = true;
     }
 
     public void DeselectPiece()
@@ -70,10 +76,37 @@ public class UnityPiece : MonoBehaviour
         if (isSelected)
         {
             spriteImage.color = Color.Lerp(Color.white, Color.clear, Mathf.PingPong(Time.time, 1));
+#if UNITY_EDITOR
+            DebugInput();
+#endif
         }
         else
         {
             spriteImage.color = Color.white;
+        }
+    }
+
+    private void DebugInput()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OnDebugTypeChange(SinglePieceType.Ice);
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            OnDebugTypeChange(SinglePieceType.Red);
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            OnDebugTypeChange(SinglePieceType.Water);
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            OnDebugTypeChange(SinglePieceType.Purple);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            OnDebugTypeChange(SinglePieceType.Sand);
         }
     }
 }

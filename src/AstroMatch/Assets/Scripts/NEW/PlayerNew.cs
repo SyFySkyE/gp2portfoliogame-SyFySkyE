@@ -7,7 +7,7 @@ public class PlayerNew : MonoBehaviour
     [Header("The player's grid")]
     [SerializeField] private UnityGrid playerGrid;
 
-    private SinglePiece pieceSelected;
+    //private SinglePiece pieceSelected;
 
     //private void OnEnable()
     //{
@@ -30,12 +30,12 @@ public class PlayerNew : MonoBehaviour
     //{
     //    foreach (Vector2 dir in Directions.AllDirections)
     //    {
-    //        //if ((this.pieceSelected.Location) + dir == playerGrid.PieceArray[(int)cellLocation.x, (int)cellLocation.y].Location)
-    //        //{
-    //        //    pieceSelected = null;
-    //        //    Debug.Log("Clicked a good peice");
-    //        //    return;
-    //        //}
+    //        if ((this.pieceSelected.Location) + dir == playerGrid.PieceArray[(int)cellLocation.x, (int)cellLocation.y].Location)
+    //        {
+    //            pieceSelected = null;
+    //            Debug.Log("Clicked a good peice");
+    //            return;
+    //        }
     //    }
 
     //    pieceSelected = null;

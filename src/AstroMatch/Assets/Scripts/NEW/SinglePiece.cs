@@ -14,7 +14,7 @@ public enum SinglePieceType
 
 public class SinglePiece
 {
-    public SinglePieceType PieceType { get; private set; }
+    public SinglePieceType PieceType { get; set; }
     public Vector2 Location { get; set; }
     
     public SinglePiece(float x, float y, bool isNull)

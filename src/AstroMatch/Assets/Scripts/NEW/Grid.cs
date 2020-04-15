@@ -78,6 +78,11 @@ public class Grid
         }
     }
 
+    public void SetPieceToNull(Vector2 pieceLocation)
+    {
+        this.PieceArray[(int)pieceLocation.x, (int)pieceLocation.y].PieceType = SinglePieceType.None;
+    }
+
     public void ResetPieceLocation(Vector2 pieceLocation)
     {
         PieceArray[(int)pieceLocation.x, (int)pieceLocation.y].Location = pieceLocation;
