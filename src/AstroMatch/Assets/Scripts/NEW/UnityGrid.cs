@@ -27,6 +27,8 @@ public class UnityGrid : MonoBehaviour
 
     private SinglePiece pieceSelected;
 
+    private bool isMatchAnimComplete = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +40,7 @@ public class UnityGrid : MonoBehaviour
         {
             uPiece.OnPieceSelect += UnityPiece_OnPieceSelect;
         }
-    }
+    }    
 
     private void UnityPiece_OnPieceSelect(Vector2 location)
     {
@@ -107,14 +109,19 @@ public class UnityGrid : MonoBehaviour
 
     private void Match(Vector2 pieceLoc)
     {        
-        foreach (SinglePiece matchingPiece in Matching.GetConnectedPieces(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y], conceptualGrid.PieceArray, Directions.AllDirections))
+        List<SinglePiece> matchingPieces = Matching.GetConnectedPieces(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y], conceptualGrid.PieceArray, Directions.AllDirections);
+        
+        foreach (SinglePiece piece in matchingPieces)
         {
-            Debug.Log(matchingPiece.PieceType);
-            Debug.Log(matchingPiece.Location);
-            conceptualGrid.SetPieceToNull(matchingPiece.Location);
-            unityPieces[(int)matchingPiece.Location.x, (int)matchingPiece.Location.y].SetImage(GetSprite(matchingPiece));
-            
+            Debug.Log(piece.PieceType + " at " + piece.Location);
+            conceptualGrid.SetPieceToNull(piece.Location);
+            unityPieces[(int)piece.Location.x, (int)piece.Location.y].SetImage(GetSprite(piece));
+            //unityPieces[(int)piece.Location.x, (int)piece.Location.y].Match();
         }
+        foreach (SinglePiece piece in matchingPieces)
+        {
+            FillCell(piece.Location);
+        }            
     }
 
     private void UpdateGameObjectGrid(Vector2 pieceOneLoc, Vector2 pieceTwoLoc)
@@ -139,6 +146,34 @@ public class UnityGrid : MonoBehaviour
         conceptualGrid.PieceArray[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y] = pieceOne;
         conceptualGrid.ResetPieceLocation(pieceOneLoc);
         conceptualGrid.ResetPieceLocation(pieceTwoLoc);
+    }
+
+    private void FillCell(Vector2 pieceLoc)
+    {
+        const int updir = -1; // Grid's top left is 0, 0
+
+        while (conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y].PieceType == SinglePieceType.None)
+        {
+            if (pieceLoc.x > 1) // Did we reach the top of the grid? Notice we're using the x and not the y
+            {
+                if (conceptualGrid.PieceArray[(int)pieceLoc.x + updir, (int)pieceLoc.y].PieceType == SinglePieceType.None)
+                {
+                    FillCell(conceptualGrid.PieceArray[(int)pieceLoc.x + updir, (int)pieceLoc.y].Location);
+                }
+                else
+                {
+                    conceptualGrid.SetPieceType(pieceLoc, conceptualGrid.PieceArray[(int)pieceLoc.x + updir, (int)pieceLoc.y].PieceType); // Copy piece type from above cell
+                    unityPieces[(int)pieceLoc.x, (int)pieceLoc.y].SetImage(GetSprite(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y])); // Update sprite
+                    conceptualGrid.SetPieceToNull(conceptualGrid.PieceArray[(int)pieceLoc.x + updir, (int)pieceLoc.y].Location); // Set above piecetype to none
+                    FillCell(conceptualGrid.PieceArray[(int)pieceLoc.x + updir, (int)pieceLoc.y].Location); // Then we gotta fill it again
+                }
+            }
+            else
+            {
+                conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y].RandomizeType();
+                unityPieces[(int)pieceLoc.x, (int)pieceLoc.y].SetImage(GetSprite(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y]));
+            }
+        }
     }
 
     private void DrawCells()

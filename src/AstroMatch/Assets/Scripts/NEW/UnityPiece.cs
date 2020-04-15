@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class UnityPiece : MonoBehaviour
 {
+    [Header("How fast the sprite fades out upon matching")]
+    [SerializeField] private float fadeMultiplier = 0.2f;
+
+    public static event System.Action OnMatchAnimComplete;
     public UnityEngine.UI.Image SpriteImage
     {
         get
@@ -64,6 +68,11 @@ public class UnityPiece : MonoBehaviour
         this.SpriteImage.sprite = sprite;
     }
 
+    public void Match()
+    {
+        //isMatching = true;
+    }
+
     public void SetTransform(Vector2 transform)
     {
         this.UnityPieceRectTransform.localPosition = transform;
@@ -79,5 +88,15 @@ public class UnityPiece : MonoBehaviour
         {
             spriteImage.color = Color.white;
         }
+
+        //if (isMatching)
+        //{
+        //    spriteImage.color = Color.Lerp(Color.white, Color.clear, fadeMultiplier * Time.time);
+        //    if (spriteImage.color == Color.clear)
+        //    {
+        //        isMatching = false;
+        //        OnMatchAnimComplete?.Invoke();                
+        //    }
+        //}       
     }
 }

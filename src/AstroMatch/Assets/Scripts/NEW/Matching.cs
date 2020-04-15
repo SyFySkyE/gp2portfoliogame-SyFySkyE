@@ -1,5 +1,4 @@
-﻿using NUnit.Framework.Constraints;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -51,16 +50,16 @@ public static class Matching
                 List<SinglePiece> pieceMatchDir = new List<SinglePiece>();
                 // By here, we have a two match                              
                 Vector2 matchDir = dir + dir;
+                pieceMatchDir.Add(currentPiece);
+                pieceMatchDir.Add(pieceArray[(int)currentPiece.Location.x + (int)dir.x, (int)currentPiece.Location.y + (int)dir.y]);
                 if (pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y].PieceType == currentPiece.PieceType)
                 {
-                    connectedPieces.Add(currentPiece);
-                    // By here, we have at least a three match, from one end to the other
-                    connectedPieces.Add(pieceArray[(int)currentPiece.Location.x + (int)dir.x, (int)currentPiece.Location.y + (int)dir.y]);
-                    connectedPieces.Add(pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y]);
+                    // By here, we have at least a three match, from one end to the other                    
+                    pieceMatchDir.Add(pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y]);
                     matchDir += dir;
                     while (pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y].PieceType == currentPiece.PieceType) // Keep adding peices along the direction
                     {
-                        connectedPieces.Add(pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y]);
+                        pieceMatchDir.Add(pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y]);
                         matchDir += dir;
                     }
                 }
@@ -70,15 +69,23 @@ public static class Matching
                 if (pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y].PieceType == currentPiece.PieceType)
                 {
                     // By here, we have at least a three match, from one end to the other
-                    connectedPieces.Add(pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y]);
+                    pieceMatchDir.Add(pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y]);
                     matchDir -= dir;
                     while (pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y].PieceType == currentPiece.PieceType) // Keep adding peices along the direction
                     {
-                        connectedPieces.Add(pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y]);
+                        pieceMatchDir.Add(pieceArray[(int)currentPiece.Location.x + (int)matchDir.x, (int)currentPiece.Location.y + (int)matchDir.y]);
                         matchDir -= dir;
                     }
                 }
-            }           
+
+                if (pieceMatchDir.Count >= matchMin)
+                {
+                    foreach (SinglePiece piece in pieceMatchDir)
+                    {
+                        connectedPieces.Add(piece);
+                    }
+                }
+            }            
         }
         if (connectedPieces.Count >= matchMin)
         {
@@ -89,6 +96,5 @@ public static class Matching
             Debug.LogWarning("Matching returned null!");
             return null;
         }
-    }
-    
+    }    
 }
