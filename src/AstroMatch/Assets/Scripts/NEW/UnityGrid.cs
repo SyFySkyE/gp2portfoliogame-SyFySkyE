@@ -39,8 +39,7 @@ public class UnityGrid : MonoBehaviour
 
     private void UnityPiece_OnPieceSelect(Vector2 location)
     {
-        Debug.Log("Dwdw");
-        if (conceptualGrid.PieceArray[(int)location.x, (int)location.y].PieceType != SinglePieceType.None)
+        if (conceptualGrid.PieceArray[(int)location.x, (int)location.y].PieceType != SinglePieceType.None) // We're clicking a cell that's not a null piece
         {
             SelectPiece(location);            
         }
@@ -50,13 +49,11 @@ public class UnityGrid : MonoBehaviour
     {       
         if (pieceSelected == null)
         {
-            Debug.Log("dwdw");
+            Debug.Log("Piece Selected");
             pieceSelected = conceptualGrid.PieceArray[(int)location.x, (int)location.y];
-            unityPieces[(int)location.x, (int)location.y].SelectPiece();
         }
         else if (pieceSelected.Location == location)
         {
-            Debug.Log("Dwdw");
             pieceSelected = null;
             unityPieces[(int)location.x, (int)location.y].DeselectPiece();
         }
@@ -68,16 +65,38 @@ public class UnityGrid : MonoBehaviour
 
     private void AttemptToSwap(Vector2 newLocation)
     {
+        unityPieces[(int)pieceSelected.Location.x, (int)pieceSelected.Location.y].DeselectPiece();
+        unityPieces[(int)newLocation.x, (int)newLocation.y].DeselectPiece();
+
         foreach (Vector2 dir in Directions.AllDirections)
         {
             if ((this.pieceSelected.Location) + dir == conceptualGrid.PieceArray[(int)newLocation.x, (int)newLocation.y].Location)
             {
-                pieceSelected = null;
-                Debug.Log("Clicked a good peice");
-                return;
+                SwapPieces(pieceSelected.Location, newLocation);
+                Debug.Log("Good Piece Selected");
             }
         }
         pieceSelected = null;
+    }
+
+    private void SwapPieces(Vector2 pieceOneLoc, Vector2 pieceTwoLoc)
+    {
+        SinglePiece pieceOne = conceptualGrid.PieceArray[(int)pieceOneLoc.x, (int)pieceOneLoc.y];
+        conceptualGrid.PieceArray[(int)pieceOneLoc.x, (int)pieceOneLoc.y] = conceptualGrid.PieceArray[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y];
+        conceptualGrid.PieceArray[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y] = pieceOne;
+        conceptualGrid.ResetPieceLocation(pieceOneLoc);
+        conceptualGrid.ResetPieceLocation(pieceTwoLoc);
+
+        Vector3 pieceOneRectLoc = unityPieces[(int)pieceOneLoc.x, (int)pieceOneLoc.y].UnityPieceRectTransform.localPosition;
+        Vector2 cachedLocation = unityPieces[(int)pieceOneLoc.x, (int)pieceOneLoc.y].pieceLocation;
+        Debug.Log(pieceOneRectLoc);
+        
+
+        
+        unityPieces[(int)pieceOneLoc.x, (int)pieceOneLoc.y].InitializeLocation(unityPieces[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y].pieceLocation);
+        unityPieces[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y].InitializeLocation(cachedLocation);
+        unityPieces[(int)pieceOneLoc.x, (int)pieceOneLoc.y].SetTransform(unityPieces[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y].UnityPieceRectTransform.localPosition);
+        unityPieces[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y].SetTransform(pieceOneRectLoc);
     }
 
     private void DrawCells()

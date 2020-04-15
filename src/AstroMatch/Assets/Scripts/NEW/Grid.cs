@@ -77,4 +77,9 @@ public class Grid
             }
         }
     }
+
+    public void ResetPieceLocation(Vector2 pieceLocation)
+    {
+        PieceArray[(int)pieceLocation.x, (int)pieceLocation.y].Location = pieceLocation;
+    }
 }

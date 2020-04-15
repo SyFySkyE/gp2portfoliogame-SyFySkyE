@@ -18,11 +18,24 @@ public class UnityPiece : MonoBehaviour
     private UnityEngine.UI.Image spriteImage;
     public Vector2 pieceLocation;
     public static event System.Action<Vector2> OnPieceSelect;
+    public RectTransform UnityPieceRectTransform
+    {
+        get
+        {
+            if (this.rectTransform == null)
+            {
+                this.rectTransform = GetComponent<RectTransform>();
+            }
+            return this.rectTransform;
+        }
+    }
+    private RectTransform rectTransform;
 
     private bool isSelected = false;
 
     private void Start()
     {
+        rectTransform = GetComponent<RectTransform>();
         spriteImage = GetComponent<UnityEngine.UI.Image>();
     }
 
@@ -49,7 +62,7 @@ public class UnityPiece : MonoBehaviour
 
     public void SetTransform(Vector2 transform)
     {
-        GetComponent<RectTransform>().localPosition = transform;
+        this.UnityPieceRectTransform.localPosition = transform;
     }
 
     private void Update()
