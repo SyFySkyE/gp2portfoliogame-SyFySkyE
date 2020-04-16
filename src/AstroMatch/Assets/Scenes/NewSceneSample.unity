@@ -911,7 +911,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: -6.9e-44, y: -6.9e-44, z: NaN, w: 4e-45}
+  m_BoundingSphereOverride: {x: 7.3e-43, y: 0, z: 0, w: 1.9608913e-26}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -1286,7 +1286,7 @@ GameObject:
   - component: {fileID: 999332814}
   - component: {fileID: 999332815}
   m_Layer: 5
-  m_Name: Player One's Panel
+  m_Name: Player One
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
