@@ -13,16 +13,15 @@ public class UnityGrid : MonoBehaviour
     [Header("Unity Piece Prefab")]
     [SerializeField] private UnityPiece unityPiece;
 
-    [Header("TODO Load this from resources")]
-    [SerializeField] private Sprite waterImage;
-    [SerializeField] private Sprite iceImage;
-    [SerializeField] private Sprite redImage;
-    [SerializeField] private Sprite purpleImage;
-    [SerializeField] private Sprite sandImage;
-    [SerializeField] private Sprite emptyImage;
+    private Sprite waterImage;
+    private Sprite iceImage;
+    private Sprite redImage;
+    private Sprite purpleImage;
+    private Sprite sandImage;
+    private Sprite emptyImage;
 
-    private Grid conceptualGrid; // Conceptual Grid, pure logic
-    private UnityPiece[,] unityPieces; // Visual Concrete GO Array
+    private Grid conceptualGrid; // Conceptual Grid, pure logic // TODO Change this to private
+    private UnityPiece[,] unityPieces; // Visual Concrete GO Array // TODO Change this to private    
     private UnityEngine.UI.Image playField; // TODO Should this be exposed? Also this visually breaks when Rows and/or columns get changed!    
 
     private SinglePiece pieceSelected;
@@ -30,9 +29,16 @@ public class UnityGrid : MonoBehaviour
 
     private bool isMatchAnimComplete = false;
 
+    public void TestStart() // For Test Runner purposes
+    {
+        conceptualGrid = new Grid(numberOfColumns, numberOfRows);
+        unityPieces = new UnityPiece[numberOfColumns + 2, numberOfRows + 2]; // We make an outer ring of cells with piece type NONE to avoid out of indexes when searhcing for matches
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        LoadResources();
         conceptualGrid = new Grid(numberOfColumns, numberOfRows);
         unityPieces = new UnityPiece[numberOfColumns + 2, numberOfRows + 2]; // We make an outer ring of cells with piece type NONE to avoid out of indexes when searhcing for matches
         playField = GetComponent<Image>();
@@ -42,6 +48,16 @@ public class UnityGrid : MonoBehaviour
             uPiece.OnPieceSelect += UnityPiece_OnPieceSelect;
         }
     }    
+
+    private void LoadResources()
+    {
+        iceImage = Resources.Load<Sprite>("Art/Sprites/Pieces/Ice");
+        purpleImage = Resources.Load<Sprite>("Art/Sprites/Pieces/Purple");
+        waterImage = Resources.Load<Sprite>("Art/Sprites/Pieces/Water");
+        redImage = Resources.Load<Sprite>("Art/Sprites/Pieces/Red");
+        sandImage = Resources.Load<Sprite>("Art/Sprites/Pieces/Sand");
+        emptyImage = Resources.Load<Sprite>("Art/Sprites/Pieces/empty");
+    }
 
     private void UnityPiece_OnPieceSelect(Vector2 location)
     {
@@ -216,6 +232,7 @@ public class UnityGrid : MonoBehaviour
                 }
             }
         }
+        IsConceptualAndUnityGridEqual();
     }
 
     private Sprite GetSprite(SinglePiece piece)
@@ -268,6 +285,20 @@ public class UnityGrid : MonoBehaviour
             }            
             conceptualGrid.SetPieceType(pieceSelected.Location, pieceSelected.PieceType);
             unityPieces[(int)pieceSelected.Location.x, (int)pieceSelected.Location.y].SetImage(GetSprite(pieceSelected));
+        }
+    }
+
+    private void IsConceptualAndUnityGridEqual()
+    {
+        foreach(UnityPiece uPiece in unityPieces)
+        {
+            if (conceptualGrid.PieceArray[(int)uPiece.pieceLocation.x, (int)uPiece.pieceLocation.y].PieceType != SinglePieceType.None)
+            {
+                if (unityPieces[(int)uPiece.pieceLocation.x, (int)uPiece.pieceLocation.y].SpriteImage.sprite.name != conceptualGrid.PieceArray[(int)uPiece.pieceLocation.x, (int)uPiece.pieceLocation.y].PieceType.ToString())
+                {
+                    Debug.LogError("Conceptual and Unity grid are misaligned!!");
+                }
+            }            
         }
     }
 #endif
