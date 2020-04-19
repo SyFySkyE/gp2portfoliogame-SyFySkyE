@@ -36,11 +36,18 @@ public class UnityPiece : MonoBehaviour
     private RectTransform rectTransform;
 
     private bool isSelected = false;
+    private bool isMatching = false;
+    private bool isSpawning = false;
 
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
         spriteImage = GetComponent<UnityEngine.UI.Image>();
+    }
+
+    private void FadeIn()
+    {
+
     }
 
     public void InitializeLocation(Vector2 newLoc)
@@ -70,7 +77,7 @@ public class UnityPiece : MonoBehaviour
 
     public void Match()
     {
-        //isMatching = true;
+        isMatching = true;
     }
 
     public void SetTransform(Vector2 transform)
@@ -89,14 +96,14 @@ public class UnityPiece : MonoBehaviour
             spriteImage.color = Color.white;
         }
 
-        //if (isMatching)
-        //{
-        //    spriteImage.color = Color.Lerp(Color.white, Color.clear, fadeMultiplier * Time.time);
-        //    if (spriteImage.color == Color.clear)
-        //    {
-        //        isMatching = false;
-        //        OnMatchAnimComplete?.Invoke();                
-        //    }
-        //}       
+        if (isMatching)
+        {
+            spriteImage.color = Color.Lerp(Color.white, Color.clear, fadeMultiplier * Time.time);
+            if (spriteImage.color == Color.clear)
+            {
+                isMatching = false;
+                OnMatchAnimComplete?.Invoke();
+            }
+        }
     }
 }

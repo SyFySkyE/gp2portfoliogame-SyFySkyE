@@ -27,7 +27,6 @@ public class GameTimer : MonoBehaviour
     private void PlayerGrid_OnCellsMatched(int cellsMatched)
     {
         timer += cellsMatched;
-        Debug.Log(cellsMatched);
     }
 
     // Update is called once per frame

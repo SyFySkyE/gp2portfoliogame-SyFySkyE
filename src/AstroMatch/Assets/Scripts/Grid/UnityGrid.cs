@@ -47,7 +47,13 @@ public class UnityGrid : MonoBehaviour
         {
             uPiece.OnPieceSelect += UnityPiece_OnPieceSelect;
         }
-    }    
+        UnityPiece.OnMatchAnimComplete += UnityPiece_OnMatchAnimComplete;
+    }
+
+    private void UnityPiece_OnMatchAnimComplete()
+    {
+        isMatchAnimComplete = true;
+    }
 
     private void LoadResources()
     {
@@ -126,10 +132,11 @@ public class UnityGrid : MonoBehaviour
 
     private void Match(Vector2 pieceLoc)
     {
-        List<SinglePiece> matchingPieces = Matching.GetConnectedPieces(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y], conceptualGrid.PieceArray, Directions.AllDirections);
+        List<SinglePiece> matchingPieces = Matching.GetConnectedPieces(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y], conceptualGrid.PieceArray, Directions.AllDirections, true);
         
         foreach (SinglePiece piece in matchingPieces)
         {
+            Debug.Log($"Matched piece of type {piece.PieceType} located at: {piece.Location}");
             conceptualGrid.SetPieceToNull(piece.Location);
             //unityPieces[(int)piece.Location.x, (int)piece.Location.y].SetImage(GetSprite(piece));
             //unityPieces[(int)piece.Location.x, (int)piece.Location.y].Match();
@@ -170,6 +177,7 @@ public class UnityGrid : MonoBehaviour
     {
         const int updir = -1; // Grid's top left is 0, 0
 
+        if (isMatchAnimComplete) { }
         while (conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y].PieceType == SinglePieceType.None)
         {
             if (pieceLoc.x > 1) // Did we reach the top of the grid? Notice we're using the x and not the y
