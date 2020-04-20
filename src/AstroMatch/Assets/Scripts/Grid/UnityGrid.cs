@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -107,18 +108,24 @@ public class UnityGrid : MonoBehaviour
             Matching.CheckForMatch(conceptualGrid.PieceArray[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y], conceptualGrid.PieceArray, Directions.AllDirections))
         {
             UpdateGameObjectGrid(pieceOneLoc, pieceTwoLoc); // If there is a match, update the GO array as well.      
-            if (Matching.CheckForMatch(conceptualGrid.PieceArray[(int)pieceOneLoc.x, (int)pieceOneLoc.y], conceptualGrid.PieceArray, Directions.AllDirections))
-            {
-                Match(pieceOneLoc);
-            }
-            if (Matching.CheckForMatch(conceptualGrid.PieceArray[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y], conceptualGrid.PieceArray, Directions.AllDirections))
-            {
-                Match(pieceTwoLoc);
-            }
+            StartCoroutine(CheckForMatches(pieceOneLoc, pieceTwoLoc));
         }
         else
         {
             UpdateConceptualGrid(pieceTwoLoc, pieceOneLoc); // If there isn't a match, switch it back to where it was. No point in updating GO array.
+        }
+    }
+
+    private IEnumerator CheckForMatches(Vector2 pieceOneLoc, Vector2 pieceTwoLoc)
+    {
+        yield return new WaitForSeconds(1); // TODO Magic number! Should be animation length
+        if (Matching.CheckForMatch(conceptualGrid.PieceArray[(int)pieceOneLoc.x, (int)pieceOneLoc.y], conceptualGrid.PieceArray, Directions.AllDirections))
+        {
+            Match(pieceOneLoc);
+        }
+        if (Matching.CheckForMatch(conceptualGrid.PieceArray[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y], conceptualGrid.PieceArray, Directions.AllDirections))
+        {
+            Match(pieceTwoLoc);
         }
     }
 
@@ -138,7 +145,7 @@ public class UnityGrid : MonoBehaviour
             FillCell(piece.Location);
         }
         OnCellsMatched(matchingPieces.Count);
-        CheckForNewMatches();
+        StartCoroutine(CheckForNewMatches());
     }
 
     private void UpdateGameObjectGrid(Vector2 pieceOneLoc, Vector2 pieceTwoLoc)
@@ -219,8 +226,9 @@ public class UnityGrid : MonoBehaviour
         }
     }
 
-    private void CheckForNewMatches()
+    private IEnumerator CheckForNewMatches()
     {
+        yield return new WaitForSeconds(2); // TODO Magic number and a coroutine!
         foreach (SinglePiece piece in conceptualGrid.PieceArray)
         {
             if (piece.PieceType != SinglePieceType.None)
