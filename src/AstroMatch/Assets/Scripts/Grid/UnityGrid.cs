@@ -27,8 +27,6 @@ public class UnityGrid : MonoBehaviour
     private SinglePiece pieceSelected;
     public event System.Action<int> OnCellsMatched;
 
-    private bool isMatchAnimComplete = false;
-
     public void TestStart() // For Test Runner purposes
     {
         conceptualGrid = new Grid(numberOfColumns, numberOfRows);
@@ -47,12 +45,6 @@ public class UnityGrid : MonoBehaviour
         {
             uPiece.OnPieceSelect += UnityPiece_OnPieceSelect;
         }
-        UnityPiece.OnMatchAnimComplete += UnityPiece_OnMatchAnimComplete;
-    }
-
-    private void UnityPiece_OnMatchAnimComplete()
-    {
-        isMatchAnimComplete = true;
     }
 
     private void LoadResources()
@@ -176,8 +168,7 @@ public class UnityGrid : MonoBehaviour
     private void FillCell(Vector2 pieceLoc)
     {
         const int updir = -1; // Grid's top left is 0, 0
-
-        if (isMatchAnimComplete) { }
+                
         while (conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y].PieceType == SinglePieceType.None)
         {
             if (pieceLoc.x > 1) // Did we reach the top of the grid? Notice we're using the x and not the y
