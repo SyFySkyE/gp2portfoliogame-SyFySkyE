@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class SelectPieceCommand : UnityCommand
 {
-    private UnityPiece thisPiece;
-
-    private void Start()
-    {
-        thisPiece = GetComponent<UnityPiece>();
-    }
+    protected UnityPiece thisPiece;    
 
     public override void Execute()
     {

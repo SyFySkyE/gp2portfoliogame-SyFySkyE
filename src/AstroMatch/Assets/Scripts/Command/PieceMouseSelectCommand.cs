@@ -7,6 +7,13 @@ public class PieceMouseSelectCommand : SelectPieceCommand, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
-        this.Execute();
+        this.thisPiece = eventData.pointerEnter.GetComponent<UnityPiece>();
+        Execute();
+    }
+
+
+    public override void Execute()
+    {
+        base.Execute();
     }
 }

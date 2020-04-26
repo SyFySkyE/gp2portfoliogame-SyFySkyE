@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 127048367}
   - component: {fileID: 127048366}
   m_Layer: 0
-  m_Name: TODO Do we need a scene manager?
+  m_Name: Scene Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1311,6 +1311,24 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 587374574507566171}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1108507094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 587374573508247441, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
+    type: 3}
+  m_PrefabInstance: {fileID: 587374574507566171}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1108507099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1108507094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d371cd83f24f50d4381ed3228f441298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1256216076
 GameObject:
   m_ObjectHideFlags: 0
