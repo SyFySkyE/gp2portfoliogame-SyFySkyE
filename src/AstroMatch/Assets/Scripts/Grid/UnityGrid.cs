@@ -137,8 +137,6 @@ public class UnityGrid : MonoBehaviour
         {
             Debug.Log($"Matched piece of type {piece.PieceType} located at: {piece.Location}");
             conceptualGrid.SetPieceToNull(piece.Location);
-            //unityPieces[(int)piece.Location.x, (int)piece.Location.y].SetImage(GetSprite(piece));
-            //unityPieces[(int)piece.Location.x, (int)piece.Location.y].Match();
         }
         foreach (SinglePiece piece in matchingPieces)
         {
@@ -187,7 +185,7 @@ public class UnityGrid : MonoBehaviour
                 else
                 {
                     conceptualGrid.SetPieceType(pieceLoc, conceptualGrid.PieceArray[(int)pieceLoc.x + updir, (int)pieceLoc.y].PieceType); // Copy piece type from above cell
-                    unityPieces[(int)pieceLoc.x, (int)pieceLoc.y].SetImage(GetSprite(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y])); // Update sprite
+                    unityPieces[(int)pieceLoc.x, (int)pieceLoc.y].SetImage(GetSprite(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y])); // Update sprite                    
                     conceptualGrid.SetPieceToNull(conceptualGrid.PieceArray[(int)pieceLoc.x + updir, (int)pieceLoc.y].Location); // Set above piecetype to none
                     FillCell(conceptualGrid.PieceArray[(int)pieceLoc.x + updir, (int)pieceLoc.y].Location); // Then we gotta fill it again
                 }
@@ -195,7 +193,7 @@ public class UnityGrid : MonoBehaviour
             else
             {
                 conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y].RandomizeType();
-                unityPieces[(int)pieceLoc.x, (int)pieceLoc.y].SetImage(GetSprite(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y]));
+                unityPieces[(int)pieceLoc.x, (int)pieceLoc.y].SetImage(GetSprite(conceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y]));                
             }
         }
     }
@@ -223,6 +221,14 @@ public class UnityGrid : MonoBehaviour
                 piecePlacement.x = -(playField.rectTransform.rect.width / 2) - (pieceSizeWidth / 2);
             }
             unityPieces[(int)currentPiece.Location.x, (int)currentPiece.Location.y] = newPiece;
+        }
+    }
+
+    public void RedrawCells()
+    {
+        foreach(SinglePiece cPiece in conceptualGrid.PieceArray)
+        {
+            unityPieces[(int)cPiece.Location.x, (int)cPiece.Location.y].SetImage(GetSprite(cPiece));
         }
     }
 
