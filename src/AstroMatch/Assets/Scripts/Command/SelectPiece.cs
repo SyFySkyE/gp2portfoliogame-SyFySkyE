@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class SelectPiece : Command
 {
-    protected UnityPiece selectedPiece;
-    protected Grid previousGridState;
+    protected UnityPiece selectedPiece;    
 
     public SelectPiece(UnityPiece clickedPiece)
     {
@@ -14,7 +13,11 @@ public class SelectPiece : Command
 
     public override void Execute()
     {
-        Debug.Log("Executed");
         selectedPiece.SelectPiece();
+    }
+
+    public override void Undo()
+    {
+        base.Undo();
     }
 }

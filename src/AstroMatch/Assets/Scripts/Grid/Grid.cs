@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,17 +9,19 @@ public class Grid
     public int numberOfRows;
 
     public SinglePiece[,] PieceArray { get; private set; }
+    private SinglePiece[,] cachedPieceArray;
 
     public Grid(int numberOfColumns, int numberOfRows)
     {
         this.numberOfColumns = numberOfColumns;
         this.numberOfRows = numberOfRows;
-        InitializeGrid();
+        InitializeGrid();        
     }
 
     private void InitializeGrid()
     {
         PieceArray = new SinglePiece[this.numberOfColumns + 2, this.numberOfRows + 2];
+        cachedPieceArray = new SinglePiece[this.numberOfColumns + 2, this.numberOfRows + 2];
         InitializeNullCells();
         InitializeNormalCells();
     }
@@ -91,5 +94,15 @@ public class Grid
     public void ResetPieceLocation(Vector2 pieceLocation)
     {
         PieceArray[(int)pieceLocation.x, (int)pieceLocation.y].Location = pieceLocation;
+    }
+
+    public void CacheArray()
+    {
+        cachedPieceArray = PieceArray.Clone() as SinglePiece[,];
+    }
+
+    public void RevertArray()
+    {
+        PieceArray = cachedPieceArray.Clone() as SinglePiece[,];
     }
 }

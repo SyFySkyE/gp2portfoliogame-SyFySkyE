@@ -21,12 +21,12 @@ public class UnityGrid : MonoBehaviour
     private Sprite sandImage;
     private Sprite emptyImage;
 
-    private Grid conceptualGrid; // Conceptual Grid, pure logic // TODO Change this to private
-    private UnityPiece[,] unityPieces; // Visual Concrete GO Array // TODO Change this to private    
+    private Grid conceptualGrid; // Conceptual Grid, pure logic 
+    private UnityPiece[,] unityPieces; // Visual Concrete GO Array 
     private UnityEngine.UI.Image playField; // TODO Should this be exposed? Also this visually breaks when Rows and/or columns get changed!    
 
     private SinglePiece pieceSelected;
-    public event System.Action<int> OnCellsMatched;
+    public event Action<int> OnCellsMatched;
 
     public void TestStart() // For Test Runner purposes
     {
@@ -102,11 +102,11 @@ public class UnityGrid : MonoBehaviour
     }
 
     private void SwapPieces(Vector2 pieceOneLoc, Vector2 pieceTwoLoc)
-    {
+    {        
         UpdateConceptualGrid(pieceOneLoc, pieceTwoLoc); // Update conceptual array and check for match
         if (Matching.CheckForMatch(conceptualGrid.PieceArray[(int)pieceOneLoc.x, (int)pieceOneLoc.y], conceptualGrid.PieceArray, Directions.AllDirections) ||
             Matching.CheckForMatch(conceptualGrid.PieceArray[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y], conceptualGrid.PieceArray, Directions.AllDirections))
-        {
+        {            
             UpdateGameObjectGrid(pieceOneLoc, pieceTwoLoc); // If there is a match, update the GO array as well.      
             StartCoroutine(CheckForMatches(pieceOneLoc, pieceTwoLoc));
         }
@@ -116,9 +116,15 @@ public class UnityGrid : MonoBehaviour
         }
     }
 
+    public void RevertToPreviousGridState()
+    {
+        conceptualGrid.RevertArray();
+        RedrawCells();
+    }
+
     private IEnumerator CheckForMatches(Vector2 pieceOneLoc, Vector2 pieceTwoLoc)
     {
-        yield return new WaitForSeconds(1); // TODO Magic number! Should be animation length
+        yield return new WaitForSeconds(0.5f); // TODO Magic number! Should be animation length
         if (Matching.CheckForMatch(conceptualGrid.PieceArray[(int)pieceOneLoc.x, (int)pieceOneLoc.y], conceptualGrid.PieceArray, Directions.AllDirections))
         {
             Match(pieceOneLoc);
@@ -163,6 +169,7 @@ public class UnityGrid : MonoBehaviour
 
     private void UpdateConceptualGrid(Vector2 pieceOneLoc, Vector2 pieceTwoLoc)
     {
+        conceptualGrid.CacheArray();
         SinglePiece pieceOne = conceptualGrid.PieceArray[(int)pieceOneLoc.x, (int)pieceOneLoc.y];
         conceptualGrid.PieceArray[(int)pieceOneLoc.x, (int)pieceOneLoc.y] = conceptualGrid.PieceArray[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y];
         conceptualGrid.PieceArray[(int)pieceTwoLoc.x, (int)pieceTwoLoc.y] = pieceOne;
@@ -234,7 +241,7 @@ public class UnityGrid : MonoBehaviour
 
     private IEnumerator CheckForNewMatches()
     {
-        yield return new WaitForSeconds(2); // TODO Magic number and a coroutine!
+        yield return new WaitForSeconds(0.5f); // TODO Magic number and a coroutine!
         foreach (SinglePiece piece in conceptualGrid.PieceArray)
         {
             if (piece.PieceType != SinglePieceType.None)
@@ -270,6 +277,10 @@ public class UnityGrid : MonoBehaviour
     private void Update()
     {
         DebugPieceType();
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            RevertToPreviousGridState();
+        }
     }
 
     private void DebugPieceType() // Press corresponding key to change type. For testing edge cases and specific scenarios

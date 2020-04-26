@@ -15,4 +15,9 @@ public abstract class Command : ICommand
     {
 
     }
+
+    public virtual void Undo()
+    {
+
+    }
 }
