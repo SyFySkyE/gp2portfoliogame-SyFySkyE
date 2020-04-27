@@ -279,7 +279,7 @@ public class UnityGrid : MonoBehaviour
         DebugPieceType();
         if (Input.GetKeyDown(KeyCode.N))
         {
-            RevertToPreviousGridState();
+            //RevertToPreviousGridState();
         }
     }
 
