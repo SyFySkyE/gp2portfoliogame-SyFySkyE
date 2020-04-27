@@ -144,6 +144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98a99ed1ae107a439fa32743da633da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isComputerControlled: 1
+  secondsBeforeEnemyMove: 2
+  enemyTimeDecrement: 0.1
 --- !u!1 &127048365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1543,6 +1546,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98a99ed1ae107a439fa32743da633da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isComputerControlled: 0
+  secondsBeforeEnemyMove: 2
+  enemyTimeDecrement: 0.1
 --- !u!1 &1307749243
 GameObject:
   m_ObjectHideFlags: 0
