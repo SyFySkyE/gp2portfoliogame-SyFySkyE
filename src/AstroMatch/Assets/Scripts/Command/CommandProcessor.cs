@@ -10,24 +10,21 @@ public class CommandProcessor : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        SelectPiece newCommand = new SelectPiece(eventData.pointerEnter.GetComponent<UnityPiece>());
-        commands.Add(newCommand);
-        if (commands.Count > maxCommandListSize)
+        if (eventData.pointerEnter != null)
         {
-            commands.RemoveAt(0);
+            SelectPiece newCommand = new SelectPiece(eventData.pointerEnter.GetComponent<UnityPiece>());
+            commands.Add(newCommand);
+            if (commands.Count > maxCommandListSize)
+            {
+                commands.RemoveAt(0);
+            }
+            newCommand.Execute();
         }
-        newCommand.Execute();
     }
 
     // Start is called before the first frame update
     void Start()
     {
         commands = new List<ICommand>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // Undo command logic
     }
 }

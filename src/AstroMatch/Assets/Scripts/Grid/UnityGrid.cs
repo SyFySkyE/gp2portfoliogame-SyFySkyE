@@ -141,7 +141,6 @@ public class UnityGrid : MonoBehaviour
         
         foreach (SinglePiece piece in matchingPieces)
         {
-            Debug.Log($"Matched piece of type {piece.PieceType} located at: {piece.Location}");
             conceptualGrid.SetPieceToNull(piece.Location);
         }
         foreach (SinglePiece piece in matchingPieces)
