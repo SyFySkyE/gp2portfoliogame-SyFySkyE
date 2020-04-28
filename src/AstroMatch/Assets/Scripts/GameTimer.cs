@@ -15,6 +15,7 @@ public class GameTimer : MonoBehaviour
     private TMPro.TextMeshProUGUI timeText;
 
     private bool isInProgress = true;
+    public event System.Action OnGameLose;
  
     // Start is called before the first frame update
     void Start()
@@ -36,7 +37,9 @@ public class GameTimer : MonoBehaviour
         {
             if (timer <= Mathf.Epsilon)
             {
-                StopGame(); // TODO Handle this with a separate GameManager obj
+                StopGame(); 
+                OnGameLose();
+                this.gameObject.SetActive(false);
             }
             else
             {
@@ -51,7 +54,6 @@ public class GameTimer : MonoBehaviour
         playerGrid.enabled = false;
         isInProgress = false;
         timer = 0;
-        timeText.text = timer.ToString("F2");
-        gameOverCanvas.SetActive(true);
+        timeText.text = timer.ToString("F2");        
     }
 }
