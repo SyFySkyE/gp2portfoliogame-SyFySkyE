@@ -36,12 +36,10 @@ public class CommandProcessor : MonoBehaviour, IPointerDownHandler
 
     private void MakeAICommand()
     {
-        
         Vector2 matchingDir;
         SinglePiece connectedPiece = computerControlledOpponent.SelectNextPiece(out matchingDir);        
         SelectPiece selectPieceCommand = new SelectPiece(GetComponent<UnityGrid>().UnityPieces[(int)connectedPiece.Location.x, (int)connectedPiece.Location.y]);
         AddNewCommand(selectPieceCommand);
-        Debug.Log("dwdw");
         SelectPiece matchPieceCommand = new SelectPiece(GetComponent<UnityGrid>().UnityPieces[(int)connectedPiece.Location.x + (int)matchingDir.x, (int)connectedPiece.Location.y + (int)matchingDir.y]);
         AddNewCommand(matchPieceCommand);
     }
@@ -58,6 +56,14 @@ public class CommandProcessor : MonoBehaviour, IPointerDownHandler
     }
 
     private void Update()
+    {
+        if (isComputerControlled)
+        {
+            ComputerMoveTimer();
+        }
+    }
+
+    private void ComputerMoveTimer()
     {
         currentTime += Time.deltaTime;
         if (currentTime >= secondsBeforeEnemyMove)
