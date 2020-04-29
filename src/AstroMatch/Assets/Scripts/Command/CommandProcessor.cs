@@ -17,11 +17,14 @@ public class CommandProcessor : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (eventData.pointerEnter != null)
+        if (!isComputerControlled)
         {
-            SelectPiece newCommand = new SelectPiece(eventData.pointerEnter.GetComponent<UnityPiece>());
-            AddNewCommand(newCommand);
-        }
+            if (eventData.pointerEnter != null)
+            {
+                SelectPiece newCommand = new SelectPiece(eventData.pointerEnter.GetComponent<UnityPiece>());
+                AddNewCommand(newCommand);
+            }
+        }        
     }
 
     private void AddNewCommand(ICommand newCommand)
