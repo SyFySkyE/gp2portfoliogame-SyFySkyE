@@ -34,10 +34,13 @@ public class GameCountDown : MonoBehaviour
             }
             else
             {
-                countdownLabel.text = string.Empty;
-                blockImage.enabled = false;
                 this.gameObject.SetActive(false);
             }
         }        
+    }
+
+    public void Reset()
+    {
+        Start();
     }
 }

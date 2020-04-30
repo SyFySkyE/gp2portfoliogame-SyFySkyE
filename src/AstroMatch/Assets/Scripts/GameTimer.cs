@@ -8,11 +8,13 @@ public class GameTimer : MonoBehaviour
     [Header("Initial Time, in seconds")]
     [SerializeField] private float timer = 30;
 
-    [Header("TODO Make this its own game manager object")]
-    [SerializeField] private GameObject gameOverCanvas;
+    [Header("When opponent makes a match, subtract this timer multiplied by this amount")]
+    [SerializeField] private float subtractMultiplier = 0.7f;
 
     private UnityGrid playerGrid;
     private TMPro.TextMeshProUGUI timeText;
+
+    public event System.Action<int> OnPlayerMatched;
 
     private bool isInProgress = true;
     public event System.Action OnGameLose;
@@ -27,7 +29,13 @@ public class GameTimer : MonoBehaviour
 
     private void PlayerGrid_OnCellsMatched(int cellsMatched)
     {
+        OnPlayerMatched(cellsMatched);
         timer += cellsMatched;
+    }
+
+    public void SubtractTime(int opponentCellsMatched)
+    {
+        timer -= opponentCellsMatched * subtractMultiplier;
     }
 
     // Update is called once per frame
@@ -55,5 +63,10 @@ public class GameTimer : MonoBehaviour
         isInProgress = false;
         timer = 0;
         timeText.text = timer.ToString("F2");        
+    }
+
+    public void Reset()
+    {
+        Start();
     }
 }

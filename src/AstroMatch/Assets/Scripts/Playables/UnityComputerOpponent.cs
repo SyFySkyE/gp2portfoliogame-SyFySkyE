@@ -36,11 +36,8 @@ public class UnityComputerOpponent : UnityBasePlayer
 
     private void MakeAICommand()
     {
-        Vector2 matchingDir;
-        SinglePiece connectedPiece = computerControlledOpponent.SelectNextPiece(out matchingDir);
+        SinglePiece connectedPiece = computerControlledOpponent.SelectNextPiece();
         SelectPiece selectPieceCommand = new SelectPiece(GetComponent<UnityGrid>().UnityPieces[(int)connectedPiece.Location.x, (int)connectedPiece.Location.y]);
         commandProcessor.AddNewCommand(selectPieceCommand);
-        SelectPiece matchPieceCommand = new SelectPiece(GetComponent<UnityGrid>().UnityPieces[(int)connectedPiece.Location.x + (int)matchingDir.x, (int)connectedPiece.Location.y + (int)matchingDir.y]);
-        commandProcessor.AddNewCommand(matchPieceCommand);
     }
 }

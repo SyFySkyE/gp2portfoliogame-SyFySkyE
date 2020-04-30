@@ -48,6 +48,11 @@ public class UnityGrid : MonoBehaviour
         }
     }
 
+    public void Reset()
+    {
+        Awake();
+    }
+
     private void LoadResources()
     {
         iceImage = Resources.Load<Sprite>("Art/Sprites/Pieces/Ice");

@@ -1985,6 +1985,7 @@ MonoBehaviour:
   playerTwo: {fileID: 2061273951}
   playerWinCanvas: {fileID: 524591493}
   computerWinCanvas: {fileID: 35394067}
+  countdown: {fileID: 801457424}
 --- !u!224 &999332811 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 587374573508247440, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
@@ -3362,6 +3363,16 @@ PrefabInstance:
       propertyPath: timer
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 587374573508247444, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 587374573508247444, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
+        type: 3}
+      propertyPath: subtractMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 587374574178834330, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
         type: 3}
       propertyPath: m_textInfo.characterCount
@@ -3522,6 +3533,16 @@ PrefabInstance:
         type: 3}
       propertyPath: timer
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 587374573508247444, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 587374573508247444, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
+        type: 3}
+      propertyPath: subtractMultiplier
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01e169cf8c96dee43b9f4bb79a51a3f6, type: 3}
