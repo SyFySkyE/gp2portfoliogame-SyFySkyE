@@ -1492,7 +1492,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: -1, y: 100, z: 1024, w: 100}
+  m_BoundingSphereOverride: {x: 5.74e-42, y: 0, z: 1e-45, w: 6.3119356e+18}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -3361,7 +3361,7 @@ PrefabInstance:
     - target: {fileID: 587374573508247444, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
         type: 3}
       propertyPath: timer
-      value: 30
+      value: 63
       objectReference: {fileID: 0}
     - target: {fileID: 587374573508247444, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
         type: 3}
@@ -3532,7 +3532,7 @@ PrefabInstance:
     - target: {fileID: 587374573508247444, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
         type: 3}
       propertyPath: timer
-      value: 30
+      value: 63
       objectReference: {fileID: 0}
     - target: {fileID: 587374573508247444, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
         type: 3}
@@ -3542,7 +3542,7 @@ PrefabInstance:
     - target: {fileID: 587374573508247444, guid: 01e169cf8c96dee43b9f4bb79a51a3f6,
         type: 3}
       propertyPath: subtractMultiplier
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01e169cf8c96dee43b9f4bb79a51a3f6, type: 3}
