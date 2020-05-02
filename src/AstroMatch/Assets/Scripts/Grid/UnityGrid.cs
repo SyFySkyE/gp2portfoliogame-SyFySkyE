@@ -256,7 +256,9 @@ public class UnityGrid : MonoBehaviour
                 }
             }
         }
+#if UNITY_EDITOR
         IsConceptualAndUnityGridEqual();
+#endif
     }
 
     private Sprite GetSprite(SinglePiece piece)
