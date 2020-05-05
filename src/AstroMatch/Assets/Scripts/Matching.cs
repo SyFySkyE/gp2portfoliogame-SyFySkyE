@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class Matching 
+public static class Matching
 {
     public static int matchMin = 3;
 
@@ -40,7 +41,7 @@ public static class Matching
         return false;
     }
 
-    public static List<SinglePiece> GetConnectedPieces(SinglePiece currentPiece, SinglePiece[,] pieceArray, Vector2[] directionsToCheck)
+    public static List<SinglePiece> GetConnectedPieces(SinglePiece currentPiece, SinglePiece[,] pieceArray, Vector2[] directionsToCheck, bool includeCorners)
     {
         List<SinglePiece> connectedPieces = new List<SinglePiece>();
         foreach(Vector2 dir in directionsToCheck)
@@ -85,17 +86,43 @@ public static class Matching
                         connectedPieces.Add(piece);
                     }
                 }
-            }            
-        }
+            }
 
-        if (connectedPieces.Count >= matchMin)
-        {            
-            return connectedPieces;
+            if (connectedPieces.Count >= matchMin)
+            {
+                if (includeCorners) 
+                {
+                    GetLPieces(currentPiece, pieceArray, connectedPieces, dir);
+                }
+                return connectedPieces;
+            }
+        }
+        Debug.LogWarning("Matching returned null!");
+        return null;
+    }
+
+    private static void GetLPieces(SinglePiece currentPiece, SinglePiece[,] pieceArray, List<SinglePiece> connectedPieces, Vector2 dir)
+    {
+        if (dir.y != 0)
+        {
+            if (CheckForMatch(currentPiece, pieceArray, Directions.HorizontalDirections))
+            {
+
+                foreach (SinglePiece piece in GetConnectedPieces(currentPiece, pieceArray, Directions.HorizontalDirections, false))
+                {
+                    connectedPieces.Add(piece);
+                }
+            }
         }
         else
         {
-            Debug.LogWarning("Matching returned null!");
-            return null;
+            if (CheckForMatch(currentPiece, pieceArray, Directions.VerticalDirections))
+            {
+                foreach (SinglePiece piece in GetConnectedPieces(currentPiece, pieceArray, Directions.VerticalDirections, false))
+                {
+                    connectedPieces.Add(piece);
+                }
+            }
         }
-    }    
+    }
 }

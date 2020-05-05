@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +14,9 @@ public class GameSceneManagement : MonoBehaviour
 
     public void ReloadScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        int currentIndex = SceneManager.GetActiveScene().buildIndex;
+        Time.timeScale = 1;
+        SceneManager.LoadScene(currentIndex);
     }
 
     public void Quit()

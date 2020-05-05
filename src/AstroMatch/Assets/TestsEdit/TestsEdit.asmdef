@@ -1,0 +1,19 @@
+{
+    "name": "TestsEdit",
+    "references": [
+        "GUID:d0097b6139b1a494c8b8b807c9098cf1"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": []
+}
