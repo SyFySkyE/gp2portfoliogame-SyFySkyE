@@ -13,6 +13,14 @@ public class UnityGrid : MonoBehaviour
 
     [Header("Unity Piece Prefab")]
     [SerializeField] private UnityPiece unityPiece;
+    public int UserID
+    {
+        get
+        {
+            return this.userID;
+        }
+    }
+    private int userID;
 
     private Sprite waterImage;
     private Sprite iceImage;
@@ -26,7 +34,7 @@ public class UnityGrid : MonoBehaviour
     private UnityEngine.UI.Image playField; // TODO Should this be exposed? Also this visually breaks when Rows and/or columns get changed!    
 
     private SinglePiece pieceSelected;
-    public event Action<int> OnCellsMatched;
+    public event Action<int, int> OnCellsMatched;
 
     public void TestStart() // For Test Runner purposes
     {
@@ -37,6 +45,7 @@ public class UnityGrid : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        this.userID = PlayerID.PlayerUserID++;
         LoadResources();
         ConceptualGrid = new Grid(numberOfColumns, numberOfRows);
         UnityPieces = new UnityPiece[numberOfColumns + 2, numberOfRows + 2]; // We make an outer ring of cells with piece type NONE to avoid out of indexes when searhcing for matches
@@ -152,7 +161,7 @@ public class UnityGrid : MonoBehaviour
         {
             FillCell(piece.Location);
         }
-        OnCellsMatched(matchingPieces.Count);
+        OnCellsMatched(matchingPieces.Count, this.userID);
         StartCoroutine(CheckForNewMatches());
     }
 

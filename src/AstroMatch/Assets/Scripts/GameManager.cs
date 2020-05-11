@@ -5,40 +5,34 @@ using UnityEngine;
     class GameManager : MonoBehaviour
 {
     [Header("Player parameters")]
-    [SerializeField] private GameTimer playerOne;
-    [SerializeField] private GameTimer playerTwo;
-    [SerializeField] private GameObject playerWinCanvas;
-    [SerializeField] private GameObject computerWinCanvas;
+    [SerializeField] private List<UnityGrid> players;
     [SerializeField] private GameCountDown countdown;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerOne.OnGameLose += PlayerOne_OnGameLose;
-        playerTwo.OnGameLose += PlayerTwo_OnGameLose;
-        playerOne.OnPlayerMatched += PlayerOne_OnPlayerMatched;
-        playerTwo.OnPlayerMatched += PlayerTwo_OnPlayerMatched;
+        foreach(UnityGrid player in players)
+        {
+            player.OnCellsMatched += Player_OnCellsMatched;
+        }
     }
 
-    private void PlayerTwo_OnPlayerMatched(int cellsMatched)
+    private void Player_OnCellsMatched(int cellsMatched, int userId)
     {
-        playerOne.SubtractTime(cellsMatched);
-    }
+        foreach(UnityGrid player in players)
+        {
+            GameTimer gt = player.GetComponent<GameTimer>();
+            if (gt != null)
+            {
+                if (userId == player.UserID)
+                {
 
-    private void PlayerOne_OnPlayerMatched(int cellsMatched)
-    {
-        playerTwo.SubtractTime(cellsMatched);
+                }
+                else
+                {
+                    gt.SubtractTime(cellsMatched);
+                }
+            }
+        }   
     }
-
-    private void PlayerTwo_OnGameLose()
-    {
-        Time.timeScale = 0;
-        playerWinCanvas.SetActive(true);
-    }
-
-    private void PlayerOne_OnGameLose()
-    {
-        Time.timeScale = 0;
-        computerWinCanvas.SetActive(true);
-    }   
 }

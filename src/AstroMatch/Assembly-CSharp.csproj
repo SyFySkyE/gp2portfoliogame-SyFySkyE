@@ -120,6 +120,7 @@
     <Compile Include="Assets\Scripts\Util\ILoggable.cs" />
     <Compile Include="Assets\Scripts\Util\Observer\IObserver.cs" />
     <Compile Include="Assets\Scripts\Util\Observer\ISubject.cs" />
+    <Compile Include="Assets\Scripts\Util\PlayerID.cs" />
     <None Include="Assets\Asset Packs\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Asset Packs\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Asset Packs\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />

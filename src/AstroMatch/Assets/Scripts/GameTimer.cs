@@ -14,10 +14,7 @@ public class GameTimer : MonoBehaviour
     private UnityGrid playerGrid;
     private TMPro.TextMeshProUGUI timeText;
 
-    public event System.Action<int> OnPlayerMatched;
-
     private bool isInProgress = true;
-    public event System.Action OnGameLose;
  
     // Start is called before the first frame update
     void Start()
@@ -27,9 +24,8 @@ public class GameTimer : MonoBehaviour
         timeText = GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
 
-    private void PlayerGrid_OnCellsMatched(int cellsMatched)
+    private void PlayerGrid_OnCellsMatched(int cellsMatched, int userID)
     {
-        OnPlayerMatched(cellsMatched);
         timer += cellsMatched;
     }
 
@@ -46,7 +42,6 @@ public class GameTimer : MonoBehaviour
             if (timer <= Mathf.Epsilon)
             {
                 StopGame(); 
-                OnGameLose();
                 this.gameObject.SetActive(false);
             }
             else
