@@ -13,6 +13,7 @@ public class GameTimer : MonoBehaviour
 
     private UnityGrid playerGrid;
     private TMPro.TextMeshProUGUI timeText;
+    public event System.Action<int> OnLose;
 
     private bool isInProgress = true;
  
@@ -42,7 +43,6 @@ public class GameTimer : MonoBehaviour
             if (timer <= Mathf.Epsilon)
             {
                 StopGame(); 
-                this.gameObject.SetActive(false);
             }
             else
             {
@@ -57,7 +57,8 @@ public class GameTimer : MonoBehaviour
         playerGrid.enabled = false;
         isInProgress = false;
         timer = 0;
-        timeText.text = timer.ToString("F2");        
+        timeText.text = timer.ToString("F2");
+        OnLose?.Invoke(playerGrid.UserID);
     }
 
     public void Reset()
