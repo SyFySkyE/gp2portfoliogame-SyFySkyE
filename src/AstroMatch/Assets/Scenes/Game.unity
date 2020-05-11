@@ -871,7 +871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f13e1b2c5f356c240b207cf95f5d21db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 4
+  timer: 30
   subtractMultiplier: 0.7
 --- !u!114 &999332814 stripped
 MonoBehaviour:
@@ -1348,42 +1348,42 @@ PrefabInstance:
     - target: {fileID: 5666028813351682777, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5666028813351682777, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5666028813351682777, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5666028813351682777, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_textInfo.pageCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5666028813227652208, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5666028813227652208, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5666028813227652208, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5666028813227652208, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_textInfo.pageCount
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64afc701ebfd03141879ef703f9d432e, type: 3}
@@ -1475,7 +1475,7 @@ PrefabInstance:
     - target: {fileID: 5666028814023273170, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_Name
-      value: Player One
+      value: Player With Timer
       objectReference: {fileID: 0}
     - target: {fileID: 5666028814023273171, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
