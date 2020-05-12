@@ -17,7 +17,7 @@ public class NumberPop : MonoBehaviour
         numCanvasElement = GetComponent<TMPro.TextMeshProUGUI>();
     }
 
-    private void Grid_OnCellsMatched(int numberOfCellsMatched)
+    private void Grid_OnCellsMatched(int numberOfCellsMatched, int userID)
     {
         PopNumber(numberOfCellsMatched);
     }

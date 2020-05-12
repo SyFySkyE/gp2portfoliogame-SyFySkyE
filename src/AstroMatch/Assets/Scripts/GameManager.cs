@@ -1,44 +1,97 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
-    class GameManager : MonoBehaviour
+class GameManager : MonoBehaviour
 {
-    [Header("Player parameters")]
-    [SerializeField] private GameTimer playerOne;
-    [SerializeField] private GameTimer playerTwo;
-    [SerializeField] private GameObject playerWinCanvas;
-    [SerializeField] private GameObject computerWinCanvas;
+    [SerializeField] private GameObject playAgainCanvas;
+    [Header("Game Parameters")]
     [SerializeField] private GameCountDown countdown;
+    [Header("Number of moves before speed of matching and AI increases")]
+    [SerializeField] private float secondsBeforeMatchSpeedIncreases = 15f;
+
+    private List<UnityGrid> players;
+
+    private int numberOfActivePlayers;
+    private float currentTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        playerOne.OnGameLose += PlayerOne_OnGameLose;
-        playerTwo.OnGameLose += PlayerTwo_OnGameLose;
-        playerOne.OnPlayerMatched += PlayerOne_OnPlayerMatched;
-        playerTwo.OnPlayerMatched += PlayerTwo_OnPlayerMatched;
+        InitializePlayerList();
+        currentTime = 0;
+        numberOfActivePlayers = 0;
+        foreach (UnityGrid player in players)
+        {            
+            GameTimer gt = player.GetComponent<GameTimer>();
+            if (gt != null)
+            {
+                numberOfActivePlayers++;
+                gt.OnLose += Gt_OnLose;
+            }
+            player.OnCellsMatched += Player_OnCellsMatched;
+        }     
     }
 
-    private void PlayerTwo_OnPlayerMatched(int cellsMatched)
+    private void InitializePlayerList()
     {
-        playerOne.SubtractTime(cellsMatched);
+        players = new List<UnityGrid>();
+        foreach(UnityGrid player in GetComponentsInChildren<UnityGrid>())
+        {
+            players.Add(player);
+        }
     }
 
-    private void PlayerOne_OnPlayerMatched(int cellsMatched)
+    private void Gt_OnLose(int userID)
     {
-        playerTwo.SubtractTime(cellsMatched);
+        foreach (UnityGrid player in players)
+        {
+            if (player.UserID == userID)
+            {
+                numberOfActivePlayers--;
+                players.Remove(player);
+                if (numberOfActivePlayers == 1)
+                {
+                    players[0].GetComponent<PlayerState>().OnPlayerWin();
+                    playAgainCanvas.SetActive(true);
+                    players[0].GetComponent<GameTimer>().enabled = false;
+                }
+                return;
+            }
+        }
     }
 
-    private void PlayerTwo_OnGameLose()
+    private void Player_OnCellsMatched(int cellsMatched, int userId)
     {
-        Time.timeScale = 0;
-        playerWinCanvas.SetActive(true);
+        foreach(UnityGrid player in players)
+        {
+            GameTimer gt = player.GetComponent<GameTimer>();
+            if (gt != null)
+            {
+                if (userId != player.UserID)
+                {
+                    gt.SubtractTime(cellsMatched);
+                }
+            }
+        }   
     }
 
-    private void PlayerOne_OnGameLose()
+    private void Update()
     {
-        Time.timeScale = 0;
-        computerWinCanvas.SetActive(true);
-    }   
+        currentTime += Time.deltaTime;
+        if (currentTime >= secondsBeforeMatchSpeedIncreases)
+        {
+            currentTime -= secondsBeforeMatchSpeedIncreases;
+            foreach (UnityGrid player in players)
+            {
+                player.DecrementMatchTime();
+                UnityComputerOpponent computerPlayer = player.GetComponent<UnityComputerOpponent>();
+                if (computerPlayer != null)
+                {
+                    computerPlayer.DecrementThinkTime();
+                }
+            }
+        }
+    }
 }
