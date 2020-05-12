@@ -88,6 +88,7 @@ class GameManager : MonoBehaviour
             foreach (UnityGrid player in players)
             {
                 player.DecrementMatchTime();
+                player.GetComponent<GameTimer>().IncrementSubtractMultiplier();
                 UnityComputerOpponent computerPlayer = player.GetComponent<UnityComputerOpponent>();
                 if (computerPlayer != null)
                 {

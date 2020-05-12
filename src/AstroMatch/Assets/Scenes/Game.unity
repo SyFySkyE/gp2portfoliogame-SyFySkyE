@@ -237,10 +237,30 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1613703302819439747, guid: 14d0801e4b5e38e468e96bd6f918dc99,
+        type: 3}
+      propertyPath: matchCheckTimeDecrement
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 1613703303743266793, guid: 14d0801e4b5e38e468e96bd6f918dc99,
         type: 3}
       propertyPath: subtractMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613703303743266793, guid: 14d0801e4b5e38e468e96bd6f918dc99,
+        type: 3}
+      propertyPath: timer
+      value: 123
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613703303743266793, guid: 14d0801e4b5e38e468e96bd6f918dc99,
+        type: 3}
+      propertyPath: maxSubtractMultiplier
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613703303743266793, guid: 14d0801e4b5e38e468e96bd6f918dc99,
+        type: 3}
+      propertyPath: subtractMultiplierIncrement
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2938255437219822830, guid: 14d0801e4b5e38e468e96bd6f918dc99,
         type: 3}
@@ -472,7 +492,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: -1, y: 100, z: 2048, w: 100}
+  m_BoundingSphereOverride: {x: 0, y: 8.3e-44, z: 6.321e-42, w: 1.05e-43}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -1732,6 +1752,11 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5670302598530382842, guid: 4167522c329e14a4b98190c1867ccb10,
+        type: 3}
+      propertyPath: matchCheckTimeDecrement
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 5670302597986028286, guid: 4167522c329e14a4b98190c1867ccb10,
         type: 3}
       propertyPath: isComputerControlled
@@ -1740,12 +1765,22 @@ PrefabInstance:
     - target: {fileID: 5670302597986028285, guid: 4167522c329e14a4b98190c1867ccb10,
         type: 3}
       propertyPath: timer
-      value: 120
+      value: 123
       objectReference: {fileID: 0}
     - target: {fileID: 5670302597986028285, guid: 4167522c329e14a4b98190c1867ccb10,
         type: 3}
       propertyPath: subtractMultiplier
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670302597986028285, guid: 4167522c329e14a4b98190c1867ccb10,
+        type: 3}
+      propertyPath: maxSubtractMultiplier
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670302597986028285, guid: 4167522c329e14a4b98190c1867ccb10,
+        type: 3}
+      propertyPath: subtractMultiplierIncrement
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 578750144, guid: 4167522c329e14a4b98190c1867ccb10, type: 3}
       propertyPath: m_AnchoredPosition.x

@@ -9,6 +9,9 @@ public class GameTimer : MonoBehaviour
     [Header("When opponent makes a match, subtract this timer multiplied by this amount")]
     [SerializeField] private float subtractMultiplier = 0.7f;
 
+    [SerializeField] private float subtractMultiplierIncrement = 0.1f;
+    [SerializeField] private float maxSubtractMultiplier = 1.1f;
+
     private UnityGrid playerGrid;
     private Slider timeSlider;
     private Image timeSliderFillRect;
@@ -86,5 +89,13 @@ public class GameTimer : MonoBehaviour
     public void Reset()
     {
         Start();
+    }
+
+    public void IncrementSubtractMultiplier()
+    {
+        if (this.subtractMultiplier <= maxSubtractMultiplier)
+        {
+            subtractMultiplier += 0.1f;
+        }
     }
 }

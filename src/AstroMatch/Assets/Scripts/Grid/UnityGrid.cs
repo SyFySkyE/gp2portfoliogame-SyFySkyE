@@ -16,7 +16,7 @@ public class UnityGrid : MonoBehaviour
 
     [Header("How long before a match visually occurs")]
     [SerializeField] private float secondsBeforeCheckForMatch = 0.5f;
-    [SerializeField] private float matchCheckTimeDecrement = 0.025f;
+    [SerializeField] private float matchCheckTimeDecrement = 0.05f;
     public int UserID
     {
         get
