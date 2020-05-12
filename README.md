@@ -11,3 +11,4 @@ Platform: WebGL
 Credits: 
 
 Programming, Design - Chris Grych
+Planet Sprites and Space Background - DinV

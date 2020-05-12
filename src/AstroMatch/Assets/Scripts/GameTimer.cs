@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class GameTimer : MonoBehaviour
 {
@@ -12,6 +10,8 @@ public class GameTimer : MonoBehaviour
     [SerializeField] private float subtractMultiplier = 0.7f;
 
     private UnityGrid playerGrid;
+    private Slider timeSlider;
+    private Image timeSliderFillRect;
     private TMPro.TextMeshProUGUI timeText;
     public event System.Action<int> OnLose;
 
@@ -20,6 +20,10 @@ public class GameTimer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timeSlider = GetComponentInChildren<Slider>();
+        timeSlider.maxValue = timer;                
+        timeSliderFillRect = timeSlider.fillRect.GetComponent<Image>();
+        CalculateSlider();
         playerGrid = GetComponent<UnityGrid>();
         playerGrid.OnCellsMatched += PlayerGrid_OnCellsMatched;
         timeText = GetComponentInChildren<TMPro.TextMeshProUGUI>();
@@ -47,9 +51,27 @@ public class GameTimer : MonoBehaviour
             else
             {
                 timer -= Time.deltaTime;
+                CalculateSlider();
                 timeText.text = timer.ToString("F2");
             }
         }       
+    }
+
+    private void CalculateSlider()
+    {
+        timeSlider.value = timer;
+        if (timeSlider.value > timeSlider.maxValue / 2)
+        {
+            timeSliderFillRect.color = new Color(0, 255, 0, .25f); // Green
+        }
+        else if (timeSlider.value < timeSlider.maxValue / 2 && timeSlider.value > timeSlider.maxValue / 4)
+        {
+            timeSliderFillRect.color = new Color(255, 255, 0, .25f); // Yellow
+        }
+        else
+        {
+            timeSliderFillRect.color = new Color(255, 0, 0, .25f); // Red
+        }
     }
 
     private void StopGame()
