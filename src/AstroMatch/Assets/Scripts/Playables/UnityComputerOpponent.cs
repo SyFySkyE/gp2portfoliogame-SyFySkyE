@@ -5,8 +5,9 @@ using UnityEngine;
 public class UnityComputerOpponent : UnityBasePlayer
 {
     [Header("AI Opponent Parameter")]
-    [SerializeField] private float secondsBeforeEnemyMove = 1.8f;
+    [SerializeField] private float secondsBeforeEnemyMove = 1.5f;
     [SerializeField] private float enemyTimeDecrement = 0.2f;
+    [SerializeField] private float minMoveTime = 0.6f;
 
     private AI computerControlledOpponent;
     private float currentTime;
@@ -43,9 +44,9 @@ public class UnityComputerOpponent : UnityBasePlayer
 
     public void DecrementThinkTime()
     {
-        if (secondsBeforeEnemyMove - enemyTimeDecrement <= 0)
+        if (secondsBeforeEnemyMove - enemyTimeDecrement <= minMoveTime)
         {
-            secondsBeforeEnemyMove = 0;
+            secondsBeforeEnemyMove = minMoveTime;
             return;
         }
         secondsBeforeEnemyMove -= enemyTimeDecrement;

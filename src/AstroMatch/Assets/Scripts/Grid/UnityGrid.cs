@@ -106,6 +106,7 @@ public class UnityGrid : MonoBehaviour
     {
         UnityPieces[(int)pieceSelected.Location.x, (int)pieceSelected.Location.y].DeselectPiece();
         UnityPieces[(int)newLocation.x, (int)newLocation.y].DeselectPiece();
+        SoundPlayer.Instance.PlayOneShot(SoundClips.Move);
 
         foreach (Vector2 dir in Directions.AllDirections)
         {
@@ -162,6 +163,7 @@ public class UnityGrid : MonoBehaviour
 
     private void Match(Vector2 pieceLoc)
     {
+        SoundPlayer.Instance.PlayOneShot(SoundClips.Match);
         List<SinglePiece> matchingPieces = Matching.GetConnectedPieces(ConceptualGrid.PieceArray[(int)pieceLoc.x, (int)pieceLoc.y], ConceptualGrid.PieceArray, Directions.AllDirections, true);
         
         foreach (SinglePiece piece in matchingPieces)

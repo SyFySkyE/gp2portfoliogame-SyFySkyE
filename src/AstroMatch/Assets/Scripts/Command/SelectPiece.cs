@@ -13,7 +13,10 @@ public class SelectPiece : Command
 
     public override void Execute()
     {
-        selectedPiece.SelectPiece();
+        if (selectedPiece != null)
+        {
+            selectedPiece.SelectPiece();
+        }        
     }
 
     public override void Undo()
