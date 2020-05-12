@@ -5,14 +5,13 @@ using UnityEngine;
 
 class GameManager : MonoBehaviour
 {
-    [Header("Player Parameters")]
-    [SerializeField] private List<UnityGrid> players;    
-
     [SerializeField] private GameObject playAgainCanvas;
     [Header("Game Parameters")]
     [SerializeField] private GameCountDown countdown;
     [Header("Number of moves before speed of matching and AI increases")]
     [SerializeField] private float secondsBeforeMatchSpeedIncreases = 15f;
+
+    private List<UnityGrid> players;
 
     private int numberOfActivePlayers;
     private float currentTime;
@@ -20,6 +19,7 @@ class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InitializePlayerList();
         currentTime = 0;
         numberOfActivePlayers = 0;
         foreach (UnityGrid player in players)
@@ -32,6 +32,15 @@ class GameManager : MonoBehaviour
             }
             player.OnCellsMatched += Player_OnCellsMatched;
         }     
+    }
+
+    private void InitializePlayerList()
+    {
+        players = new List<UnityGrid>();
+        foreach(UnityGrid player in GetComponentsInChildren<UnityGrid>())
+        {
+            players.Add(player);
+        }
     }
 
     private void Gt_OnLose(int userID)

@@ -43,6 +43,11 @@ public class UnityComputerOpponent : UnityBasePlayer
 
     public void DecrementThinkTime()
     {
+        if (secondsBeforeEnemyMove - enemyTimeDecrement <= 0)
+        {
+            secondsBeforeEnemyMove = 0;
+            return;
+        }
         secondsBeforeEnemyMove -= enemyTimeDecrement;
     }
 }
