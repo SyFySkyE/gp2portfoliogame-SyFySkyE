@@ -6,7 +6,7 @@ Description Long: In AstroMatch, you're pitted against a computer in a competiti
 
 Genre: Puzzle
 
-Platform: WebGL, Desktop
+Platform: WebGL, PC, Mac
 
 Credits: 
 
