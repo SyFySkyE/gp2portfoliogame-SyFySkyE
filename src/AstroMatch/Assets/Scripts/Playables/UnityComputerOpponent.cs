@@ -38,6 +38,11 @@ public class UnityComputerOpponent : UnityBasePlayer
     {
         SinglePiece connectedPiece = computerControlledOpponent.AICommand();
         SelectPiece selectPieceCommand = new SelectPiece(GetComponent<UnityGrid>().UnityPieces[(int)connectedPiece.Location.x, (int)connectedPiece.Location.y]);
-        commandProcessor.AddNewCommand(selectPieceCommand);
+        commandProcessor.AddNewCommand(selectPieceCommand);        
+    }    
+
+    public void DecrementThinkTime()
+    {
+        secondsBeforeEnemyMove -= enemyTimeDecrement;
     }
 }

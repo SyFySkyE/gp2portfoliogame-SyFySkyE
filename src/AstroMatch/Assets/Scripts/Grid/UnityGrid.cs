@@ -13,6 +13,10 @@ public class UnityGrid : MonoBehaviour
 
     [Header("Unity Piece Prefab")]
     [SerializeField] private UnityPiece unityPiece;
+
+    [Header("How long before a match visually occurs")]
+    [SerializeField] private float secondsBeforeCheckForMatch = 0.5f;
+    [SerializeField] private float matchCheckTimeDecrement = 0.025f;
     public int UserID
     {
         get
@@ -136,6 +140,13 @@ public class UnityGrid : MonoBehaviour
         RedrawCells();
     }
 
+    public void DecrementMatchTime()
+    {
+        if (secondsBeforeCheckForMatch <= 0)
+            return;
+        secondsBeforeCheckForMatch -= matchCheckTimeDecrement;
+    }
+
     private IEnumerator CheckForMatches(Vector2 pieceOneLoc, Vector2 pieceTwoLoc)
     {
         yield return new WaitForSeconds(0.5f); // TODO Magic number! Should be animation length
@@ -254,7 +265,7 @@ public class UnityGrid : MonoBehaviour
 
     private IEnumerator CheckForNewMatches()
     {
-        yield return new WaitForSeconds(0.5f); // TODO Magic number and a coroutine!
+        yield return new WaitForSeconds(secondsBeforeCheckForMatch); // TODO Magic number and a coroutine!
         foreach (SinglePiece piece in ConceptualGrid.PieceArray)
         {
             if (piece.PieceType != SinglePieceType.None)

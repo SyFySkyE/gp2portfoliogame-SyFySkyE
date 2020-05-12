@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 
 public class CommandProcessor : MonoBehaviour
 {
+    [Header("Check to enable AI")]
     [SerializeField] private bool isComputerControlled;
     
     private byte maxCommandListSize = 10;

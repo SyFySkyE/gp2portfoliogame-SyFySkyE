@@ -1,20 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 
-    class GameManager : MonoBehaviour
+class GameManager : MonoBehaviour
 {
-    [Header("Player parameters")]
-    [SerializeField] private List<UnityGrid> players;
-    [SerializeField] private GameCountDown countdown;
+    [Header("Player Parameters")]
+    [SerializeField] private List<UnityGrid> players;    
 
-    private GameObject playAgainCanvas;
+    [SerializeField] private GameObject playAgainCanvas;
+    [Header("Game Parameters")]
+    [SerializeField] private GameCountDown countdown;
+    [Header("Number of moves before speed of matching and AI increases")]
+    [SerializeField] private float secondsBeforeMatchSpeedIncreases = 15f;
+
     private int numberOfActivePlayers;
+    private float currentTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        playAgainCanvas = Resources.Load<GameObject>("Prefabs/PlayAgainCanvas");
+        currentTime = 0;
         numberOfActivePlayers = 0;
         foreach (UnityGrid player in players)
         {            
@@ -25,7 +31,7 @@ using UnityEngine;
                 gt.OnLose += Gt_OnLose;
             }
             player.OnCellsMatched += Player_OnCellsMatched;
-        }
+        }     
     }
 
     private void Gt_OnLose(int userID)
@@ -39,7 +45,7 @@ using UnityEngine;
                 if (numberOfActivePlayers == 1)
                 {
                     players[0].GetComponent<PlayerState>().OnPlayerWin();
-                    Instantiate(playAgainCanvas);
+                    playAgainCanvas.SetActive(true);
                     players[0].GetComponent<GameTimer>().enabled = false;
                 }
                 return;
@@ -60,5 +66,23 @@ using UnityEngine;
                 }
             }
         }   
+    }
+
+    private void Update()
+    {
+        currentTime += Time.deltaTime;
+        if (currentTime >= secondsBeforeMatchSpeedIncreases)
+        {
+            currentTime -= secondsBeforeMatchSpeedIncreases;
+            foreach (UnityGrid player in players)
+            {
+                player.DecrementMatchTime();
+                UnityComputerOpponent computerPlayer = player.GetComponent<UnityComputerOpponent>();
+                if (computerPlayer != null)
+                {
+                    computerPlayer.DecrementThinkTime();
+                }
+            }
+        }
     }
 }

@@ -98,6 +98,7 @@
     <Compile Include="Assets\Asset Packs\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
     <Compile Include="Assets\Scripts\AI\AI.cs" />
     <Compile Include="Assets\Scripts\CanvasManager.cs" />
+    <Compile Include="Assets\Scripts\CanvasRescaler.cs" />
     <Compile Include="Assets\Scripts\Command\Command.cs" />
     <Compile Include="Assets\Scripts\Command\CommandProcessor.cs" />
     <Compile Include="Assets\Scripts\Command\ICommand.cs" />
