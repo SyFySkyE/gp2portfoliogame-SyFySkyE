@@ -1,1 +1,17 @@
-Release Notes version 3 Final
+- Some tuning
+- Added music, SFX
+- Added a partially visible bar behind each grid that lowers and changes color based on how much time is left for that player.
+	- Built dyanmically so the color changes based on what the original maxValue was
+	- Takes out the need to look at time left. Pretty much just for spectator
+- Made number pop linger a bit longer
+- AI gets faster, so does matching speed for all palyers as game goes on
+	- Made sure neither values fall below 0
+- Separating GameManager from win and lose canvases, putting that respsonbility in player classes (PlayerState)
+- Separating GameTimer from player so we can have players without gametimers
+- Can now have an arbitary number of players
+	- CHanging exposed playerfields to be a list
+		- Changed exposed list to look through children and adding every player (UnityGrid) it sees
+	- Matching goes through the list of subtracts everyone ecept the player
+		- Gave each player an ID so we add so when someone matches we add time to their's but subtract everyone else's
+- Games now end when one player is left
+- More more time before enemy move increase.

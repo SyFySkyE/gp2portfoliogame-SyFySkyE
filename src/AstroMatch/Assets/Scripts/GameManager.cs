@@ -50,11 +50,13 @@ class GameManager : MonoBehaviour
             if (player.UserID == userID)
             {
                 numberOfActivePlayers--;
+                player.GetComponent<CommandProcessor>().DisablePlayer();
                 players.Remove(player);
                 if (numberOfActivePlayers == 1)
                 {
                     players[0].GetComponent<PlayerState>().OnPlayerWin();
                     playAgainCanvas.SetActive(true);
+                    SoundPlayer.Instance.PlayOneShot(SoundClips.End);
                     players[0].GetComponent<GameTimer>().enabled = false;
                 }
                 return;
@@ -86,6 +88,7 @@ class GameManager : MonoBehaviour
             foreach (UnityGrid player in players)
             {
                 player.DecrementMatchTime();
+                player.GetComponent<GameTimer>().IncrementSubtractMultiplier();
                 UnityComputerOpponent computerPlayer = player.GetComponent<UnityComputerOpponent>();
                 if (computerPlayer != null)
                 {

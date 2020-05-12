@@ -11,21 +11,26 @@ public class CommandProcessor : MonoBehaviour
     [SerializeField] private bool isComputerControlled;
     
     private byte maxCommandListSize = 10;
-    private List<ICommand> commands;    
+    private List<ICommand> commands;
+    private bool isEnabled;
 
     public void AddNewCommand(ICommand newCommand)
     {
-        commands.Add(newCommand);
-        if (commands.Count > maxCommandListSize)
+        if (isEnabled)
         {
-            commands.RemoveAt(0);
-        }
-        newCommand.Execute();
+            commands.Add(newCommand);
+            if (commands.Count > maxCommandListSize)
+            {
+                commands.RemoveAt(0);
+            }
+            newCommand.Execute();
+        }        
     }    
 
     // Start is called before the first frame update
     void Start()
     {
+        isEnabled = true;
         commands = new List<ICommand>();
         if (isComputerControlled)
         {
@@ -36,4 +41,9 @@ public class CommandProcessor : MonoBehaviour
             this.gameObject.AddComponent<PlayerController>();
         }
     }    
+    
+    public void DisablePlayer()
+    {
+        isEnabled = false;
+    }
 }
