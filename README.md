@@ -8,25 +8,38 @@ Genre: Puzzle
 
 Platform: WebGL, PC, Mac
 
+
 Credits: 
 
 Programming, Design - Chris Grych
+
 Planet Sprites and Space Background - DinV
+
 Ash Pikachu Font - Electronic Highway Font
+
 
 Music:
 
 Nat Keefe & BeatMower - Thinking About the Universe 
+
 Eveningland - Scouting
+
 Norma Rockwell - Bond
+
 Slynk - Space Lady
+
 JVNA - Giving Up
 
 SFX:
 
 Mattix - Vibrations (Move SFX)
+
 Pumodi - Explosions 1, 3 (Match SFX)
+
 Projectsu012 - ShortExplosion (Match SFX)
+
 Basarunder - Countdown
+
 HeadPhaze - UI Complete (Move SFX)
+
 LittleRobotFactory - Jingle Achievement (End SFX)
