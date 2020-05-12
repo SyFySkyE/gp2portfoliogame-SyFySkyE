@@ -251,6 +251,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5666028814166051011, guid: 64afc701ebfd03141879ef703f9d432e,
+        type: 3}
+      propertyPath: isComputerControlled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5666028813351682776, guid: 64afc701ebfd03141879ef703f9d432e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -490,6 +495,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: 30
   subtractMultiplier: 0.7
+--- !u!114 &365768647 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5666028814023273174, guid: 64afc701ebfd03141879ef703f9d432e,
+    type: 3}
+  m_PrefabInstance: {fileID: 99274079}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 365768642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7431056c0fb3ef941a358945d7bfac99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &617881120
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,6 +1039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players:
   - {fileID: 999332814}
+  - {fileID: 365768647}
   countdown: {fileID: 801457424}
 --- !u!114 &965127247
 MonoBehaviour:
@@ -1046,8 +1064,8 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
 --- !u!1 &999332810 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5666028814023273170, guid: 64afc701ebfd03141879ef703f9d432e,
